@@ -27,13 +27,13 @@ public:
 private:
 
 	UPROPERTY(VisibleAnywhere)
+	float UsedCapacity{0};
+
+	UPROPERTY(VisibleAnywhere)
 	TMap<FString, int> StorageMap{};
 
 	UPROPERTY(EditAnywhere)
 	float MaximumCapacity{200};
-
-	UPROPERTY(VisibleAnywhere)
-	float UsedCapacity{0};
 
 public:
 

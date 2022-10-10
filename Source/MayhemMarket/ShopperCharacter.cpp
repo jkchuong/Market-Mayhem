@@ -13,7 +13,6 @@ AShopperCharacter::AShopperCharacter()
 
 	ShoppingCart = CreateDefaultSubobject<UShoppingCart>(TEXT("Shopping Cart"));
 	AddOwnedComponent(ShoppingCart);
-
 	
 }
 

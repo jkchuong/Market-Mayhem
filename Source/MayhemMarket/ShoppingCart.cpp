@@ -57,7 +57,7 @@ bool UShoppingCart::AddItem(AItem* ItemToAdd)
 
 	// TODO: Spawn item in shopping cart 
 
-	UE_LOG(LogTemp, Warning, TEXT("Have: %f"), StorageMap[ItemName]);
+	UE_LOG(LogTemp, Warning, TEXT("Used Capacity: %f"), UsedCapacity);
 
 	return true;
 }

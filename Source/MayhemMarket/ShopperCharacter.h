@@ -31,6 +31,8 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
-	UPROPERTY(VisibleAnywhere, Category="Shopping", meta = (AllowPrivateAccess="true"))
+public:
+
+	UPROPERTY(EditAnywhere, Category="Shopping", BlueprintReadWrite)
 	class UShoppingCart* ShoppingCart;
 };
