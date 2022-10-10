@@ -3,17 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "PlayerPawn.generated.h"
+#include "GameFramework/Character.h"
+#include "ShopperCharacter.generated.h"
 
 UCLASS()
-class MAYHEMMARKET_API APlayerPawn : public APawn
+class MAYHEMMARKET_API AShopperCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	APlayerPawn();
+	// Sets default values for this character's properties
+	AShopperCharacter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,5 +25,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+private:
+
+	void MoveForward(float AxisValue);
+	void MoveRight(float AxisValue);
+
 
 };
