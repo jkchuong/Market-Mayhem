@@ -31,5 +31,6 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
-
+	UPROPERTY(VisibleAnywhere, Category="Shopping", meta = (AllowPrivateAccess="true"))
+	class UShoppingCart* ShoppingCart;
 };

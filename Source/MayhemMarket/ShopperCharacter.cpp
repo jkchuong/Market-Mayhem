@@ -3,11 +3,16 @@
 
 #include "ShopperCharacter.h"
 
+#include "ShoppingCart.h"
+
 // Sets default values
 AShopperCharacter::AShopperCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	ShoppingCart = CreateDefaultSubobject<UShoppingCart>(TEXT("Shopping Cart"));
+	AddOwnedComponent(ShoppingCart);
 
 }
 
