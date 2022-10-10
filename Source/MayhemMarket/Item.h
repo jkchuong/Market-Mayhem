@@ -37,6 +37,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Components")
 	UStaticMeshComponent* ItemMesh;
 
+public:
+
 	UPROPERTY(EditAnywhere, Category="Item")
 	ItemEnum ItemType{ItemEnum::Detergent};
 

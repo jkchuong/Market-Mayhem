@@ -3,6 +3,8 @@
 
 #include "ShoppingCart.h"
 
+#include "Item.h"
+
 // Sets default values for this component's properties
 UShoppingCart::UShoppingCart()
 {
@@ -19,8 +21,6 @@ void UShoppingCart::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
 }
 
 
@@ -32,3 +32,40 @@ void UShoppingCart::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	// ...
 }
 
+bool UShoppingCart::AddItem(AItem* ItemToAdd)
+{
+	// Only add an item if there is capacity
+	if (ItemToAdd->ItemSize + UsedCapacity > MaximumCapacity)
+	{
+		return false;
+	}
+
+	// If shopping cart already contains the item then add it, else make a new item
+	if (StorageMap.Contains(*ItemToAdd))
+	{
+		StorageMap[*ItemToAdd]++;
+	}
+	else
+	{
+		StorageMap.Emplace(*ItemToAdd, 1);
+	}
+
+	UsedCapacity += ItemToAdd->ItemSize;
+
+	// TODO: Spawn item in shopping cart 
+
+	return true;
+}
+
+bool UShoppingCart::RemoveItem(AItem* ItemToRemove)
+{
+	if (!StorageMap.Contains(*ItemToRemove))
+	{
+		return false;
+	}
+
+	StorageMap[*ItemToRemove]--;
+	UsedCapacity -= ItemToRemove->ItemSize;
+
+	return true;
+}

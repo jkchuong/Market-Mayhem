@@ -24,5 +24,23 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+private:
+
+	UPROPERTY(VisibleAnywhere)
+	TMap<class AItem, int> StorageMap{};
+
+	UPROPERTY(EditAnywhere)
+	float MaximumCapacity{200};
+
+	UPROPERTY(VisibleAnywhere)
+	float UsedCapacity{0};
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	bool AddItem(class AItem* ItemToAdd);
+
+	UFUNCTION(BlueprintCallable)
+	bool RemoveItem(class AItem* ItemToRemove);
+
 };
