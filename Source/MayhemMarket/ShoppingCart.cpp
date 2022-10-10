@@ -34,6 +34,8 @@ void UShoppingCart::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 bool UShoppingCart::AddItem(AItem* ItemToAdd)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Adding Item with name %s"), *ItemToAdd->ItemName);
+
 	// Only add an item if there is capacity
 	if (ItemToAdd->ItemSize + UsedCapacity > MaximumCapacity)
 	{
@@ -55,11 +57,16 @@ bool UShoppingCart::AddItem(AItem* ItemToAdd)
 
 	// TODO: Spawn item in shopping cart 
 
+	UE_LOG(LogTemp, Warning, TEXT("Have: %f"), StorageMap[ItemName]);
+
 	return true;
 }
 
 bool UShoppingCart::RemoveItem(AItem* ItemToRemove)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Removing Item with name %s"), *ItemToRemove->ItemName);
+
+
 	FString ItemName = ItemToRemove->ItemName;
 	if (!StorageMap.Contains(ItemName))
 	{

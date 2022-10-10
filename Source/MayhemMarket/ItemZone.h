@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "ItemZone.generated.h"
 
+class AItem;
+
 UCLASS()
 class MAYHEMMARKET_API AItemZone : public AActor
 {
@@ -23,4 +25,43 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+
+	// For spawning in the item display in the game to show the player what item is on the shelves
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AItem> ItemClass;
+
+	UPROPERTY()
+	AItem* Item;
+
+	UPROPERTY(EditAnywhere)
+	int Stock{20};
+
+	// For determining where the item displayed will spawn in the world 
+	UPROPERTY(EditDefaultsOnly)
+	USceneComponent* ItemDisplayPosition;
+
+	// For interacting with the player
+	UPROPERTY(EditDefaultsOnly)
+	class UBoxComponent* TriggerZone;
+
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* StorageMesh;
+
+	UFUNCTION()
+	void OnPlayerEnterBox(UPrimitiveComponent* OverlappedComp,
+						  AActor* otherActor,
+						  UPrimitiveComponent* otherComp,
+						  int32 otherBodyIndex,
+						  bool bFromSweep, 
+						  const FHitResult& sweepResult);
+
+	UFUNCTION()
+	void OnPlayerExitBox(UPrimitiveComponent* OverlappedComp, 
+						 AActor* OtherActor, 
+						 UPrimitiveComponent* OtherComp, 
+						 int32 OtherBodyIndex);
+
+
+					
 };

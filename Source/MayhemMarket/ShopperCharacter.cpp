@@ -14,6 +14,7 @@ AShopperCharacter::AShopperCharacter()
 	ShoppingCart = CreateDefaultSubobject<UShoppingCart>(TEXT("Shopping Cart"));
 	AddOwnedComponent(ShoppingCart);
 
+	
 }
 
 // Called when the game starts or when spawned
