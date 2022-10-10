@@ -41,13 +41,14 @@ bool UShoppingCart::AddItem(AItem* ItemToAdd)
 	}
 
 	// If shopping cart already contains the item then add it, else make a new item
-	if (StorageMap.Contains(*ItemToAdd))
+	FString ItemName = ItemToAdd->ItemName;
+	if (StorageMap.Contains(ItemName))
 	{
-		StorageMap[*ItemToAdd]++;
+		StorageMap[ItemName]++;
 	}
 	else
 	{
-		StorageMap.Emplace(*ItemToAdd, 1);
+		StorageMap.Emplace(ItemName, 1);
 	}
 
 	UsedCapacity += ItemToAdd->ItemSize;
@@ -59,12 +60,13 @@ bool UShoppingCart::AddItem(AItem* ItemToAdd)
 
 bool UShoppingCart::RemoveItem(AItem* ItemToRemove)
 {
-	if (!StorageMap.Contains(*ItemToRemove))
+	FString ItemName = ItemToRemove->ItemName;
+	if (!StorageMap.Contains(ItemName))
 	{
 		return false;
 	}
 
-	StorageMap[*ItemToRemove]--;
+	StorageMap[ItemName]--;
 	UsedCapacity -= ItemToRemove->ItemSize;
 
 	return true;

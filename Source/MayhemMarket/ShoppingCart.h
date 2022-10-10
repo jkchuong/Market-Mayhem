@@ -27,7 +27,7 @@ public:
 private:
 
 	UPROPERTY(VisibleAnywhere)
-	TMap<class AItem, int> StorageMap{};
+	TMap<FString, int> StorageMap{};
 
 	UPROPERTY(EditAnywhere)
 	float MaximumCapacity{200};
