@@ -74,5 +74,7 @@ bool UShoppingCart::RemoveItem(AItem* ItemToRemove)
 	StorageMap[ItemName]--;
 	UsedCapacity -= ItemToRemove->ItemSize;
 
+	// TODO: Remove item in shopping cart
+
 	return true;
 }

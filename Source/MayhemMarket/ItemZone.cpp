@@ -13,14 +13,17 @@ AItemZone::AItemZone()
 	PrimaryActorTick.bCanEverTick = true;
 
 	TriggerZone = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger Zone"));
-	SetRootComponent(TriggerZone);
 	TriggerZone->SetGenerateOverlapEvents(true);
+	TriggerZone->SetBoxExtent(FVector(120.0f, 220.0f, 100.0f));
+	SetRootComponent(TriggerZone);
 
 	StorageMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Storage Mesh"));
 	StorageMesh->SetupAttachment(RootComponent);
 
 	ItemDisplayPosition = CreateDefaultSubobject<USceneComponent>(TEXT("Item Display Position"));
 	ItemDisplayPosition->SetupAttachment(RootComponent);
+	ItemDisplayPosition->SetRelativeLocation(FVector(0.0f, 178.0f, 235.0f));
+	ItemDisplayPosition->SetRelativeRotation(FRotator(-30.0f, 0.0f, 0.0f));
 
 }
 
