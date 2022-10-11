@@ -31,6 +31,13 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
+	UCapsuleComponent* CapsuleComponent;
+	FTimerHandle TransferRateTimerHandle;
+	float TransferRate;
+
+	UFUNCTION()
+	void OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);
+
 public:
 
 	UPROPERTY(EditAnywhere, Category="Shopping", BlueprintReadWrite)

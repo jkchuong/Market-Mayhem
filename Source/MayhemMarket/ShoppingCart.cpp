@@ -21,6 +21,8 @@ void UShoppingCart::BeginPlay()
 {
 	Super::BeginPlay();
 
+	
+
 }
 
 

@@ -4,6 +4,8 @@
 #include "ShopperCharacter.h"
 
 #include "ShoppingCart.h"
+#include "ItemZone.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 AShopperCharacter::AShopperCharacter()
@@ -14,6 +16,7 @@ AShopperCharacter::AShopperCharacter()
 	ShoppingCart = CreateDefaultSubobject<UShoppingCart>(TEXT("Shopping Cart"));
 	AddOwnedComponent(ShoppingCart);
 	
+	CapsuleComponent = GetCapsuleComponent();
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +24,7 @@ void AShopperCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
 }
 
 // Called every frame
@@ -51,4 +55,13 @@ void AShopperCharacter::MoveForward(float AxisValue)
 void AShopperCharacter::MoveRight(float AxisValue)
 {
 	AddMovementInput(GetActorRightVector() * AxisValue);
+}
+
+void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
+{
+	AItemZone* ItemZone = Cast<AItemZone>(OtherActor);
+	if (ItemZone)
+	{
+		ShoppingCart->AddItem(ItemZone->GetItem());
+	}
 }
