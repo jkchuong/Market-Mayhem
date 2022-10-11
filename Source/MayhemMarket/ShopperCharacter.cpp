@@ -25,6 +25,7 @@ void AShopperCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
+	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this,&AShopperCharacter::OnPlayerExitZone);
 }
 
 // Called every frame
@@ -70,8 +71,13 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 			ItemZone
 		);
 
-		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, TransferRate, true);
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, TakeItemRate, true);
 	}
+}
+
+void AShopperCharacter::OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex)
+{
+	GetWorldTimerManager().ClearTimer(TransferRateTimerHandle);
 }
 
 void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)

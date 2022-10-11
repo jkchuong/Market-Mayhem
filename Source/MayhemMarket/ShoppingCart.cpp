@@ -36,8 +36,6 @@ void UShoppingCart::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 bool UShoppingCart::AddItem(AItem* ItemToAdd)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Adding Item with name %s"), *ItemToAdd->ItemName);
-
 	// Only add an item if there is capacity
 	if (ItemToAdd->ItemSize + UsedCapacity > MaximumCapacity)
 	{
@@ -58,8 +56,6 @@ bool UShoppingCart::AddItem(AItem* ItemToAdd)
 	UsedCapacity += ItemToAdd->ItemSize;
 
 	// TODO: Spawn item in shopping cart 
-
-	UE_LOG(LogTemp, Warning, TEXT("Used Capacity: %f"), UsedCapacity);
 
 	return true;
 }

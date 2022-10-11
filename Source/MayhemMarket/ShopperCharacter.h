@@ -31,13 +31,18 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
+	// For colliding with trigger zone of item and purchase zones.
 	UCapsuleComponent* CapsuleComponent;
 	FTimerHandle TransferRateTimerHandle;
-	float TransferRate{2.0f};
+	float TakeItemRate{2.0f};
+	float PurchaseItemRate{1.0f};
 
 	UFUNCTION()
 	void OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);
-	
+
+	UFUNCTION()
+	void OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex);
+
 	UFUNCTION()
 	void AddItemToShoppingCart(AItemZone* ItemZone);
 
