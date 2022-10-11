@@ -5,7 +5,9 @@
 
 #include "ShoppingCart.h"
 #include "ItemZone.h"
+#include "PurchaseZone.h"
 #include "Components/CapsuleComponent.h"
+#include "Item.h"
 
 // Sets default values
 AShopperCharacter::AShopperCharacter()
@@ -26,6 +28,9 @@ void AShopperCharacter::BeginPlay()
 	
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
 	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this,&AShopperCharacter::OnPlayerExitZone);
+
+	// Generate initial shopping list here to begin the game
+	GenerateShoppingList();
 }
 
 // Called every frame
@@ -60,6 +65,7 @@ void AShopperCharacter::MoveRight(float AxisValue)
 
 void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
 {
+	// Case for entering ItemZone
 	AItemZone* ItemZone = Cast<AItemZone>(OtherActor);
 	if (ItemZone)
 	{
@@ -73,6 +79,14 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 
 		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, TakeItemRate, true);
 	}
+
+	// Case for entering PurchaseZone
+	APurchaseZone* PurchaseZone = Cast<APurchaseZone>(OtherActor);
+	if (PurchaseZone)
+	{
+		// Start timer that starts removing things from the player
+
+	}
 }
 
 void AShopperCharacter::OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex)
@@ -85,9 +99,29 @@ void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
 	// Only add the item to shopping cart if there is stock and shopping cart has capacity
 	if (ItemZone->GetStockValid())
 	{
-		if (ShoppingCart->AddItem(ItemZone->GetItem()))
+		if (ShoppingCart->AddItem(ItemZone->GetItem()->ItemName))
 		{
 			ItemZone->TakeItem();
 		}
 	}
 }
+
+void AShopperCharacter::RemoveItemFromShoppingCart()
+{
+	for (TPair<FString, int> ShoppingListItem : ShoppingList)
+	{
+		while (ShoppingCart->RemoveItem(ShoppingListItem.Key) && ShoppingListItem.Value > 0)
+		{
+			// Keep removing items if we have it in shopping cart and shopping list still requires it
+			ShoppingListItem.Value--;
+
+		}
+	}
+}
+
+void AShopperCharacter::GenerateShoppingList()
+{
+	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Detergent), 5);
+	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Pizza), 5);
+}
+

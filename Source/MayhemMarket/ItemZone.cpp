@@ -20,6 +20,7 @@ AItemZone::AItemZone()
 	StorageMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Storage Mesh"));
 	StorageMesh->SetupAttachment(RootComponent);
 
+	// For the default position of item to display. This will let the player know what item is being sold at this position
 	ItemDisplayPosition = CreateDefaultSubobject<USceneComponent>(TEXT("Item Display Position"));
 	ItemDisplayPosition->SetupAttachment(RootComponent);
 	ItemDisplayPosition->SetRelativeLocation(FVector(0.0f, 178.0f, 235.0f));

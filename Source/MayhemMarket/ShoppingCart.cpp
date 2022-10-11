@@ -21,8 +21,6 @@ void UShoppingCart::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
-
 }
 
 
@@ -34,47 +32,40 @@ void UShoppingCart::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	// ...
 }
 
-bool UShoppingCart::AddItem(AItem* ItemToAdd)
+bool UShoppingCart::AddItem(FString ItemToAdd)
 {
 	// Only add an item if there is capacity
-	if (ItemToAdd->ItemSize + UsedCapacity > MaximumCapacity)
+	if (UsedCapacity >= MaximumCapacity)
 	{
 		return false;
 	}
 
 	// If shopping cart already contains the item then add it, else make a new item
-	FString ItemName = ItemToAdd->ItemName;
-	if (StorageMap.Contains(ItemName))
+	if (Storage.Contains(ItemToAdd))
 	{
-		StorageMap[ItemName]++;
+		Storage[ItemToAdd]++;
 	}
 	else
 	{
-		StorageMap.Emplace(ItemName, 1);
+		Storage.Emplace(ItemToAdd, 1);
 	}
 
-	UsedCapacity += ItemToAdd->ItemSize;
-
-	// TODO: Spawn item in shopping cart 
+	UsedCapacity++;
 
 	return true;
 }
 
-bool UShoppingCart::RemoveItem(AItem* ItemToRemove)
+bool UShoppingCart::RemoveItem(FString ItemToRemove)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Removing Item with name %s"), *ItemToRemove->ItemName);
+	UE_LOG(LogTemp, Warning, TEXT("Removing Item with name %s"), *ItemToRemove);
 
-
-	FString ItemName = ItemToRemove->ItemName;
-	if (!StorageMap.Contains(ItemName))
+	if (!Storage.Contains(ItemToRemove))
 	{
 		return false;
 	}
 
-	StorageMap[ItemName]--;
-	UsedCapacity -= ItemToRemove->ItemSize;
-
-	// TODO: Remove item in shopping cart
+	Storage[ItemToRemove]--;
+	UsedCapacity--;
 
 	return true;
 }

@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ShopperCharacter.generated.h"
 
+class AItem;
+
 UCLASS()
 class MAYHEMMARKET_API AShopperCharacter : public ACharacter
 {
@@ -31,6 +33,10 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
+	// For displaying what needs to be purchased
+	UPROPERTY(EditAnywhere)
+	TMap<FString, int> ShoppingList{};
+
 	// For colliding with trigger zone of item and purchase zones.
 	UCapsuleComponent* CapsuleComponent;
 	FTimerHandle TransferRateTimerHandle;
@@ -45,6 +51,12 @@ private:
 
 	UFUNCTION()
 	void AddItemToShoppingCart(AItemZone* ItemZone);
+
+	UFUNCTION()
+	void RemoveItemFromShoppingCart();
+
+	UFUNCTION()
+	void GenerateShoppingList();
 
 public:
 

@@ -29,18 +29,18 @@ private:
 	float UsedCapacity{0};
 
 	UPROPERTY(VisibleAnywhere)
-	TMap<FString, int> StorageMap{};
+	TMap<FString, int> Storage{};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
-	float MaximumCapacity{200};
+	float MaximumCapacity{50};
 
 public:
 
 	UFUNCTION(BlueprintCallable)
-	bool AddItem(AItem* ItemToAdd);
+	bool AddItem(FString ItemToAdd);
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveItem(AItem* ItemToRemove);
+	bool RemoveItem(FString ItemToRemove);
 
 
 };
