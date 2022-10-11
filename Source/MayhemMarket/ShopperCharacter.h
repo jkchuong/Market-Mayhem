@@ -33,10 +33,13 @@ private:
 
 	UCapsuleComponent* CapsuleComponent;
 	FTimerHandle TransferRateTimerHandle;
-	float TransferRate;
+	float TransferRate{2.0f};
 
 	UFUNCTION()
 	void OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);
+	
+	UFUNCTION()
+	void AddItemToShoppingCart(AItemZone* ItemZone);
 
 public:
 

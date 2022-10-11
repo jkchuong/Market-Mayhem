@@ -53,6 +53,15 @@ AItem* AItemZone::GetItem() const
 	return Item;
 }
 
+bool AItemZone::GetStockValid() const
+{
+	return Stock > 0;
+}
+
+void AItemZone::TakeItem()
+{
+	Stock--;
+}
 
 
 

@@ -48,26 +48,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StorageMesh;
 
-	// FTimerHandle TransferRateTimerHandle;
-
-	// UFUNCTION()
-	// void OnPlayerEnterBox(UPrimitiveComponent* OverlappedComp,
-	// 					  AActor* otherActor,
-	// 					  UPrimitiveComponent* otherComp,
-	// 					  int32 otherBodyIndex,
-	// 					  bool bFromSweep, 
-	// 					  const FHitResult& sweepResult);
-
-	// UFUNCTION()
-	// void OnPlayerExitBox(UPrimitiveComponent* OverlappedComp, 
-	// 					 AActor* OtherActor, 
-	// 					 UPrimitiveComponent* OtherComp, 
-	// 					 int32 OtherBodyIndex);
-
-	// UFUNCTION()
-	// void TryAddItemToPlayer(UShoppingCart* ShoppingCart);
-
 public:
 
 	AItem* GetItem() const;
+	bool GetStockValid() const;
+	void TakeItem();
 };

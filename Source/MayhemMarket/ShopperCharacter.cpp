@@ -62,6 +62,26 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 	AItemZone* ItemZone = Cast<AItemZone>(OtherActor);
 	if (ItemZone)
 	{
-		ShoppingCart->AddItem(ItemZone->GetItem());
+		// Start timer that starts adding things to the player
+		FTimerDelegate TransferEnableTimerDelegate = 
+			FTimerDelegate::CreateUObject(
+			this,
+			&AShopperCharacter::AddItemToShoppingCart,
+			ItemZone
+		);
+
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, TransferRate, true);
+	}
+}
+
+void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
+{
+	// Only add the item to shopping cart if there is stock and shopping cart has capacity
+	if (ItemZone->GetStockValid())
+	{
+		if (ShoppingCart->AddItem(ItemZone->GetItem()))
+		{
+			ItemZone->TakeItem();
+		}
 	}
 }
