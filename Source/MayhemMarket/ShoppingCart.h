@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "ShoppingCart.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MAYHEMMARKET_API UShoppingCart : public UActorComponent
 {
@@ -32,15 +31,16 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TMap<FString, int> StorageMap{};
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
 	float MaximumCapacity{200};
 
 public:
 
 	UFUNCTION(BlueprintCallable)
-	bool AddItem(class AItem* ItemToAdd);
+	bool AddItem(AItem* ItemToAdd);
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveItem(class AItem* ItemToRemove);
+	bool RemoveItem(AItem* ItemToRemove);
+
 
 };

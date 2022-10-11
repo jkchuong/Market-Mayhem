@@ -35,6 +35,7 @@ void AItemZone::BeginPlay()
 	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &AItemZone::OnPlayerEnterBox);
 	TriggerZone->OnComponentEndOverlap.AddDynamic(this, &AItemZone::OnPlayerExitBox);
 
+	// Spawn the display to represent the item that can be purchased at this zone
 	Item = GetWorld()->SpawnActor<AItem>(ItemClass);
 	Item->AttachToComponent(ItemDisplayPosition, FAttachmentTransformRules::KeepRelativeTransform, TEXT("Item Display"));
 	Item->SetActorScale3D(FVector::OneVector * 3);
@@ -50,19 +51,36 @@ void AItemZone::Tick(float DeltaTime)
 
 void AItemZone::OnPlayerEnterBox(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
 {
-	// Start adding items when a player enters the box
 	UShoppingCart* ShoppingCart = OtherActor->FindComponentByClass<UShoppingCart>();
 	if (!ShoppingCart) return;
-	if (Stock <= 0) return;
 
-	ShoppingCart->AddItem(Item);
+	// Start timer that starts adding things to the player
+	FTimerDelegate TransferEnableTimerDelegate = 
+		FTimerDelegate::CreateUObject(
+		this,
+		&AItemZone::TryAddItemToPlayer,
+		ShoppingCart
+	);
+
+	GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, 2.0f, true);
 }
 
 void AItemZone::OnPlayerExitBox(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	// Stop timer that was adding things to the player
+
 	// Stop adding items when a player enters the box
 	UShoppingCart* ShoppingCart = OtherActor->FindComponentByClass<UShoppingCart>();
 	if (!ShoppingCart) return;
+}
 
+void AItemZone::TryAddItemToPlayer(UShoppingCart* ShoppingCart)
+{
+	if (Stock <= 0) return;
 
+	// Remove an item from the stock if successfully added to the shopping cart
+	if (ShoppingCart->AddItem(Item))
+	{
+		Stock--;
+	}
 }

@@ -48,6 +48,8 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StorageMesh;
 
+	FTimerHandle TransferRateTimerHandle;
+
 	UFUNCTION()
 	void OnPlayerEnterBox(UPrimitiveComponent* OverlappedComp,
 						  AActor* otherActor,
@@ -62,6 +64,6 @@ private:
 						 UPrimitiveComponent* OtherComp, 
 						 int32 OtherBodyIndex);
 
-
-					
+	UFUNCTION()
+	void TryAddItemToPlayer(UShoppingCart* ShoppingCart);
 };
