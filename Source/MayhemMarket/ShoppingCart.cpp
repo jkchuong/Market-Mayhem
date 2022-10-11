@@ -59,7 +59,7 @@ bool UShoppingCart::RemoveItem(FString ItemToRemove)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Removing Item with name %s"), *ItemToRemove);
 
-	if (!Storage.Contains(ItemToRemove))
+	if (!Storage.Contains(ItemToRemove) || Storage[ItemToRemove] <= 0)
 	{
 		return false;
 	}

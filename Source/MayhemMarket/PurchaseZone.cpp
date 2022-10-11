@@ -25,6 +25,8 @@ void APurchaseZone::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	DrawDebugBox(GetWorld(), GetActorLocation(), TriggerZone->GetUnscaledBoxExtent(), FColor::Blue, true);
+	
 }
 
 // Called every frame

@@ -85,7 +85,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 	if (PurchaseZone)
 	{
 		// Start timer that starts removing things from the player
-
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::RemoveItemFromShoppingCart, PurchaseItemRate, true);
 	}
 }
 
@@ -108,13 +108,15 @@ void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
 
 void AShopperCharacter::RemoveItemFromShoppingCart()
 {
-	for (TPair<FString, int> ShoppingListItem : ShoppingList)
+	for (TPair<FString, int>& ShoppingListItem : ShoppingList)
 	{
-		while (ShoppingCart->RemoveItem(ShoppingListItem.Key) && ShoppingListItem.Value > 0)
+		if (ShoppingListItem.Value > 0 && ShoppingCart->RemoveItem(ShoppingListItem.Key))
 		{
-			// Keep removing items if we have it in shopping cart and shopping list still requires it
+			// Return once an item is removed and wait for the next call from the FTimerHandle
+			// We don't want to loop through all at the same time or it'll remove all valid items instantly 
+			// We want to remove items at a controlled rate
 			ShoppingListItem.Value--;
-
+			return;
 		}
 	}
 }

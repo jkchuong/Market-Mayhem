@@ -34,13 +34,17 @@ private:
 	void MoveRight(float AxisValue);
 
 	// For displaying what needs to be purchased
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Shopping")
 	TMap<FString, int> ShoppingList{};
 
 	// For colliding with trigger zone of item and purchase zones.
 	UCapsuleComponent* CapsuleComponent;
 	FTimerHandle TransferRateTimerHandle;
+
+	UPROPERTY(EditAnywhere, Category="Shopping")
 	float TakeItemRate{2.0f};
+
+	UPROPERTY(EditAnywhere, Category="Shopping")
 	float PurchaseItemRate{1.0f};
 
 	UFUNCTION()
