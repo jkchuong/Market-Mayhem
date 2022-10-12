@@ -32,7 +32,7 @@ private:
 	TMap<FString, int> Storage{};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
-	float MaximumCapacity{50};
+	float MaximumCapacity{200};
 
 public:
 
@@ -42,5 +42,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool RemoveItem(FString ItemToRemove);
 
-
+	TMap<FString, int> GetStorage() const;
+	float GetUsedCapacityPercentage() const;
 };

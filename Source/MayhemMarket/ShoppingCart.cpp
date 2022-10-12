@@ -57,8 +57,6 @@ bool UShoppingCart::AddItem(FString ItemToAdd)
 
 bool UShoppingCart::RemoveItem(FString ItemToRemove)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Removing Item with name %s"), *ItemToRemove);
-
 	if (!Storage.Contains(ItemToRemove) || Storage[ItemToRemove] <= 0)
 	{
 		return false;
@@ -68,4 +66,14 @@ bool UShoppingCart::RemoveItem(FString ItemToRemove)
 	UsedCapacity--;
 
 	return true;
+}
+
+TMap<FString, int> UShoppingCart::GetStorage() const
+{
+	return Storage;
+}
+
+float UShoppingCart::GetUsedCapacityPercentage() const
+{
+	return (UsedCapacity / MaximumCapacity);
 }

@@ -62,6 +62,8 @@ private:
 	UFUNCTION()
 	void GenerateShoppingList();
 
+	FString GetStringFromMap(const TMap<FString, int>& Map) const;
+
 public:
 
 	UPROPERTY(EditAnywhere, Category="Shopping", BlueprintReadWrite)
@@ -69,4 +71,10 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FString GetShoppingListAsFString() const;
+
+	UFUNCTION(BlueprintPure)
+	FString GetShoppingCartAsFString() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetShoppingCartCapacity() const;
 };

@@ -65,6 +65,7 @@ void AShopperCharacter::MoveRight(float AxisValue)
 
 void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Player Entered %s"), *OtherComp->GetOwner()->GetActorNameOrLabel());
 	// Case for entering ItemZone
 	AItemZone* ItemZone = Cast<AItemZone>(OtherActor);
 	if (ItemZone)
@@ -91,6 +92,8 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 
 void AShopperCharacter::OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Player Exit %s"), *OtherComp->GetOwner()->GetActorNameOrLabel());
+
 	GetWorldTimerManager().ClearTimer(TransferRateTimerHandle);
 }
 
@@ -127,12 +130,18 @@ void AShopperCharacter::GenerateShoppingList()
 	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Pizza), 5);
 }
 
-FString AShopperCharacter::GetShoppingListAsFString() const
+FString AShopperCharacter::GetStringFromMap(const TMap<FString, int>& Map) const
 {
 	FString ReturnString;
 
-	for (TPair<FString, int> ListItem : ShoppingList)
+	for (TPair<FString, int> ListItem : Map)
 	{
+		// Don't list the item if there's none of it left
+		if (ListItem.Value <= 0)
+		{
+			continue;
+		}
+
 		FString NewLine;
 		NewLine += ListItem.Key;
 		NewLine += TEXT(" x ");
@@ -144,5 +153,19 @@ FString AShopperCharacter::GetShoppingListAsFString() const
 	}
 
 	return ReturnString;
+}
 
+FString AShopperCharacter::GetShoppingListAsFString() const
+{
+	return GetStringFromMap(ShoppingList);
+}
+
+FString AShopperCharacter::GetShoppingCartAsFString() const
+{
+	return GetStringFromMap(ShoppingCart->GetStorage());
+}
+
+float AShopperCharacter::GetShoppingCartCapacity() const
+{
+	return ShoppingCart->GetUsedCapacityPercentage();
 }
