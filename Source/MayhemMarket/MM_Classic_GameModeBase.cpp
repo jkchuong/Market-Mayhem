@@ -3,3 +3,11 @@
 
 #include "MM_Classic_GameModeBase.h"
 
+#include "Blueprint/UserWidget.h"
+
+void AMM_Classic_GameModeBase::StartPlay()
+{
+    Super::StartPlay();
+
+
+}

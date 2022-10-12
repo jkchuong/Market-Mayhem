@@ -13,5 +13,11 @@ UCLASS()
 class MAYHEMMARKET_API AMM_Classic_GameModeBase : public AMayhemMarketGameModeBase
 {
 	GENERATED_BODY()
+
+public: 
+
+	virtual void StartPlay() override;
 	
+
+
 };

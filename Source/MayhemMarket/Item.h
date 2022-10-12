@@ -13,6 +13,9 @@ enum class ItemEnum : uint8
   Cake         UMETA(DisplayName = "Cake"),
   Coffee       UMETA(DisplayName = "Coffee"),
   Pizza		   UMETA(DisplayName = "Pizza"),
+
+
+  COUNT,
 };
 
 
