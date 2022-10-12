@@ -127,3 +127,22 @@ void AShopperCharacter::GenerateShoppingList()
 	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Pizza), 5);
 }
 
+FString AShopperCharacter::GetShoppingListAsFString() const
+{
+	FString ReturnString;
+
+	for (TPair<FString, int> ListItem : ShoppingList)
+	{
+		FString NewLine;
+		NewLine += ListItem.Key;
+		NewLine += TEXT(" x ");
+		NewLine += FString::FromInt(ListItem.Value);
+		NewLine += LINE_TERMINATOR;
+		NewLine.RemoveFromStart(TEXT("ItemEnum::"));
+
+		ReturnString += NewLine;
+	}
+
+	return ReturnString;
+
+}

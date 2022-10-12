@@ -66,4 +66,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Shopping", BlueprintReadWrite)
 	class UShoppingCart* ShoppingCart;
+
+	UFUNCTION(BlueprintPure)
+	FString GetShoppingListAsFString() const;
 };
