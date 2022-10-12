@@ -65,7 +65,7 @@ void AShopperCharacter::MoveRight(float AxisValue)
 
 void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Player Entered %s"), *OtherComp->GetOwner()->GetActorNameOrLabel());
+	UE_LOG(LogTemp, Warning, TEXT("Player Entered %s"), *OtherComp->GetName());
 	// Case for entering ItemZone
 	AItemZone* ItemZone = Cast<AItemZone>(OtherActor);
 	if (ItemZone)
@@ -92,7 +92,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 
 void AShopperCharacter::OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Player Exit %s"), *OtherComp->GetOwner()->GetActorNameOrLabel());
+	UE_LOG(LogTemp, Warning, TEXT("Player Exit %s"), *OtherComp->GetName());
 
 	GetWorldTimerManager().ClearTimer(TransferRateTimerHandle);
 }
@@ -126,6 +126,8 @@ void AShopperCharacter::RemoveItemFromShoppingCart()
 
 void AShopperCharacter::GenerateShoppingList()
 {
+	
+
 	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Detergent), 5);
 	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Pizza), 5);
 }

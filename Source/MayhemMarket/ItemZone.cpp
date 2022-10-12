@@ -5,6 +5,7 @@
 
 #include "Item.h"
 #include "Components/BoxComponent.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 AItemZone::AItemZone()
@@ -23,9 +24,19 @@ AItemZone::AItemZone()
 	// For the default position of item to display. This will let the player know what item is being sold at this position
 	ItemDisplayPosition = CreateDefaultSubobject<USceneComponent>(TEXT("Item Display Position"));
 	ItemDisplayPosition->SetupAttachment(RootComponent);
-	ItemDisplayPosition->SetRelativeLocation(FVector(0.0f, 178.0f, 235.0f));
+	ItemDisplayPosition->SetRelativeLocation(FVector(0.0f, 0.0f, 235.0f));
 	ItemDisplayPosition->SetRelativeRotation(FRotator(-30.0f, 0.0f, 0.0f));
 
+	// Spawn UI to display the number of items left that could be purchased and time to restock
+	ItemCount = CreateDefaultSubobject<UWidgetComponent>(TEXT("Item Count Widget"));
+	ItemCount->SetupAttachment(RootComponent);
+	ItemCount->SetRelativeLocation(FVector(0.0f, 0.0f, 180.0f));
+
+	ItemCountBack = CreateDefaultSubobject<UWidgetComponent>(TEXT("Item Count Widget Back"));
+	ItemCountBack->SetupAttachment(ItemCount);
+	ItemCountBack->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
+
+	Stock = MaximumStock;
 }
 
 // Called when the game starts or when spawned
@@ -33,10 +44,7 @@ void AItemZone::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	DrawDebugBox(GetWorld(), GetActorLocation(), TriggerZone->GetUnscaledBoxExtent(), FColor::Green, true);
-
-	// TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &AItemZone::OnPlayerEnterBox);
-	// TriggerZone->OnComponentEndOverlap.AddDynamic(this, &AItemZone::OnPlayerExitBox);
+	DrawDebugBox(GetWorld(), GetActorLocation(), TriggerZone->GetScaledBoxExtent(), GetActorRotation().Quaternion(), FColor::Green, true);
 
 	// Spawn the display to represent the item that can be purchased at this zone
 	Item = GetWorld()->SpawnActor<AItem>(ItemClass);
@@ -49,7 +57,6 @@ void AItemZone::BeginPlay()
 void AItemZone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 AItem* AItemZone::GetItem() const
@@ -67,50 +74,7 @@ void AItemZone::TakeItem()
 	Stock--;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-// void AItemZone::OnPlayerEnterBox(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
-// {
-// 	UShoppingCart* ShoppingCart = OtherActor->FindComponentByClass<UShoppingCart>();
-// 	if (!ShoppingCart) return;
-
-// 	// Start timer that starts adding things to the player
-// 	FTimerDelegate TransferEnableTimerDelegate = 
-// 		FTimerDelegate::CreateUObject(
-// 		this,
-// 		&AItemZone::TryAddItemToPlayer,
-// 		ShoppingCart
-// 	);
-
-// 	GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, 2.0f, true);
-// }
-
-// void AItemZone::OnPlayerExitBox(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-// {
-// 	// Stop timer that was adding things to the player
-
-// 	// Stop adding items when a player enters the box
-// 	UShoppingCart* ShoppingCart = OtherActor->FindComponentByClass<UShoppingCart>();
-// 	if (!ShoppingCart) return;
-// }
-
-// void AItemZone::TryAddItemToPlayer(UShoppingCart* ShoppingCart)
-// {
-// 	if (Stock <= 0) return;
-
-// 	// Remove an item from the stock if successfully added to the shopping cart
-// 	if (ShoppingCart->AddItem(Item))
-// 	{
-// 		Stock--;
-// 	}
-// }
+float AItemZone::GetStockPercentageRemaining() const
+{
+	return (Stock / static_cast<float>(MaximumStock));
+}
