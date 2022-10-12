@@ -29,6 +29,13 @@ void AShopperCharacter::BeginPlay()
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
 	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this,&AShopperCharacter::OnPlayerExitZone);
 
+	// Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list
+	for (int Item{0}; Item != static_cast<int>(ItemEnum::COUNT_MAX_ITEMS); Item++)
+	{
+		ItemEnum ItemAsEnum = static_cast<ItemEnum>(Item);
+		ShoppingList.Emplace(UEnum::GetValueAsString(ItemAsEnum), 0);
+	}
+
 	// Generate initial shopping list here to begin the game
 	GenerateShoppingList();
 }
@@ -113,23 +120,38 @@ void AShopperCharacter::RemoveItemFromShoppingCart()
 {
 	for (TPair<FString, int>& ShoppingListItem : ShoppingList)
 	{
-		if (ShoppingListItem.Value > 0 && ShoppingCart->RemoveItem(ShoppingListItem.Key))
+		// Return once an item is removed and wait for the next call from the FTimerHandle
+		// We don't want to loop through all at the same time or it'll remove all valid items instantly 
+		// We want to remove items at a controlled rate
+		if (ShoppingListItem.Value > 0)
 		{
-			// Return once an item is removed and wait for the next call from the FTimerHandle
-			// We don't want to loop through all at the same time or it'll remove all valid items instantly 
-			// We want to remove items at a controlled rate
-			ShoppingListItem.Value--;
+			if (ShoppingCart->RemoveItem(ShoppingListItem.Key))
+			{
+				ShoppingListItem.Value--;
+				return;
+			}
+
 			return;
 		}
 	}
+
+	// If we reach here, that means shipping list item value <= 0 for all items so we need to generate new list
+	GenerateShoppingList();
+
 }
 
 void AShopperCharacter::GenerateShoppingList()
 {
-	
+	int TotalPossibleItems = static_cast<int>(ItemEnum::COUNT_MAX_ITEMS);
+	int NumberOfTimesToSelect = 1 + FMath::CeilToInt(ShoppingListDifficulty / 3);
 
-	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Detergent), 5);
-	ShoppingList.Emplace(UEnum::GetValueAsString(ItemEnum::Pizza), 5);
+	for (int i{0}; i < NumberOfTimesToSelect; i++)
+	{
+		ItemEnum ItemSelected = static_cast<ItemEnum>(FMath::RandRange(0, TotalPossibleItems - 1));
+		int NumberOfItemRequired = FMath::RandRange(5 * ShoppingListDifficulty, 20 * ShoppingListDifficulty);
+		FString ItemSelectedAsFString = UEnum::GetValueAsString(ItemSelected);
+		ShoppingList[ItemSelectedAsFString] += NumberOfItemRequired;
+	}
 }
 
 FString AShopperCharacter::GetStringFromMap(const TMap<FString, int>& Map) const

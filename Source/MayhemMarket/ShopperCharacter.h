@@ -33,19 +33,28 @@ private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 
-	// For displaying what needs to be purchased
+	/** For displaying what needs to be purchased */
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	TMap<FString, int> ShoppingList{};
 
-	// For colliding with trigger zone of item and purchase zones.
+	/** For colliding with trigger zone of item and purchase zones.*/
 	UCapsuleComponent* CapsuleComponent;
 	FTimerHandle TransferRateTimerHandle;
 
+	/** The rate at which the player adds items to the shopping cart.*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float TakeItemRate{2.0f};
 
+	/** The rate at which the player purchases items at the purchase zone (shopping counter).*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float PurchaseItemRate{1.0f};
+
+	/** The scaling of the shopping lists. This number adds to the total number of times a new item is generated for a single shopping list.
+	 *  It also multiplies the random range the shopping list could request.
+	 *  E.g a value of 10 would change the number of items it could request from 5 - 20 to 50 - 100.
+	*/
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	float ShoppingListDifficulty{1.0f};
 
 	UFUNCTION()
 	void OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);

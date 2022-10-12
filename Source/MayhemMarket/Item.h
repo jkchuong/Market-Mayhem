@@ -15,7 +15,7 @@ enum class ItemEnum : uint8
   Pizza		   UMETA(DisplayName = "Pizza"),
 
 
-  COUNT,
+  COUNT_MAX_ITEMS,
 };
 
 
