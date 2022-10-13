@@ -51,6 +51,11 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StorageMesh;
 
+	FTimerHandle RestockTimerHandle;
+	float TimeToRestock{5};
+
+	void Restock();
+
 public:
 
 	// For displaying the count on the number of items remaining

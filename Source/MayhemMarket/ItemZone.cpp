@@ -36,7 +36,7 @@ AItemZone::AItemZone()
 	ItemCountBack->SetupAttachment(ItemCount);
 	ItemCountBack->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
 
-	Stock = MaximumStock;
+	Restock();
 }
 
 // Called when the game starts or when spawned
@@ -57,6 +57,12 @@ void AItemZone::BeginPlay()
 void AItemZone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AItemZone::Restock()
+{
+	Stock = MaximumStock;
 }
 
 AItem* AItemZone::GetItem() const
@@ -72,6 +78,12 @@ bool AItemZone::GetStockValid() const
 void AItemZone::TakeItem()
 {
 	Stock--;
+
+	// Restock with timer if stock runs out
+	if (!GetStockValid())
+	{
+		GetWorldTimerManager().SetTimer(RestockTimerHandle, this, &AItemZone::Restock, TimeToRestock, false);
+	} 
 }
 
 float AItemZone::GetStockPercentageRemaining() const
