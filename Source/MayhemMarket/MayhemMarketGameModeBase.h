@@ -14,4 +14,8 @@ class MAYHEMMARKET_API AMayhemMarketGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public: 
+
+	virtual void EndGame(float Score);
+
 };

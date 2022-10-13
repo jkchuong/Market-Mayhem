@@ -18,6 +18,6 @@ public:
 
 	virtual void StartPlay() override;
 	
-
+	virtual void EndGame(float Score) override;
 
 };

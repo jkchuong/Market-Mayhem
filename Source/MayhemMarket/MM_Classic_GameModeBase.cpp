@@ -11,3 +11,11 @@ void AMM_Classic_GameModeBase::StartPlay()
 
 
 }
+
+void AMM_Classic_GameModeBase::EndGame(float Score)
+{
+    Super::EndGame(Score);
+
+    // Call player controller with the score here
+    
+}

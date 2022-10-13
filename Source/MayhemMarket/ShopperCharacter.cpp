@@ -8,6 +8,7 @@
 #include "PurchaseZone.h"
 #include "Components/CapsuleComponent.h"
 #include "Item.h"
+#include "MayhemMarketGameModeBase.h"
 
 // Sets default values
 AShopperCharacter::AShopperCharacter()
@@ -29,6 +30,8 @@ void AShopperCharacter::BeginPlay()
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
 	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this,&AShopperCharacter::OnPlayerExitZone);
 
+	// Load upgrades from GameInstance here. This will give us persistent stats between level changes
+
 	// Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list
 	for (int Item{0}; Item != static_cast<int>(ItemEnum::COUNT_MAX_ITEMS); Item++)
 	{
@@ -38,6 +41,9 @@ void AShopperCharacter::BeginPlay()
 
 	// Generate initial shopping list here to begin the game
 	GenerateShoppingList();
+
+	// Begin the timer for this round
+	GetWorldTimerManager().SetTimer(ShopDurationTimerHandle, this, &AShopperCharacter::CloseShop, ShopDuration);
 }
 
 // Called every frame
@@ -154,6 +160,17 @@ void AShopperCharacter::GenerateShoppingList()
 	}
 }
 
+void AShopperCharacter::CloseShop()
+{
+	AMayhemMarketGameModeBase* GameModeBase = GetWorld()->GetAuthGameMode<AMayhemMarketGameModeBase>();
+
+	if (GameModeBase)
+	{
+		// TODO: Replace with score when score system in place
+		GameModeBase->EndGame(0.0f);
+	}
+}
+
 FString AShopperCharacter::GetStringFromMap(const TMap<FString, int>& Map) const
 {
 	FString ReturnString;
@@ -193,3 +210,12 @@ float AShopperCharacter::GetShoppingCartCapacity() const
 {
 	return ShoppingCart->GetUsedCapacityPercentage();
 }
+
+FTimerHandle AShopperCharacter::GetShopDurationTimerHandle() const
+{
+	return ShopDurationTimerHandle;
+}
+
+
+
+

@@ -3,3 +3,7 @@
 
 #include "MayhemMarketGameModeBase.h"
 
+void AMayhemMarketGameModeBase::EndGame(float Score)
+{
+    // Do base stuff here if needed
+}

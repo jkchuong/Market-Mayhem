@@ -56,6 +56,11 @@ private:
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float ShoppingListDifficulty{1.0f};
 
+	/** Time until the round ends. i.e 120 means that this level will last for 2 minutes (shop is open for 120 seconds)*/
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	float ShopDuration{60.0f};
+	FTimerHandle ShopDurationTimerHandle;
+
 	UFUNCTION()
 	void OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);
 
@@ -70,6 +75,10 @@ private:
 
 	UFUNCTION()
 	void GenerateShoppingList();
+
+	/** Close the shop - ends the round and calls game mode base to deal with it. */
+	UFUNCTION()
+	void CloseShop();
 
 	FString GetStringFromMap(const TMap<FString, int>& Map) const;
 
@@ -86,4 +95,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	float GetShoppingCartCapacity() const;
+
+	UFUNCTION(BlueprintPure)
+	FTimerHandle GetShopDurationTimerHandle() const;
 };
