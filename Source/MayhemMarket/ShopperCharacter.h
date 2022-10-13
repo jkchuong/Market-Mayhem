@@ -60,6 +60,16 @@ private:
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float ShoppingListDifficulty{1.0f};
 
+	/** The score of the player. For each shopping list a player completes, 100 score is added.
+	 *  The final score will be multiplied by score multiplier upgrades.
+	*/
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	float Score{0.0f};
+
+	/** The Multiplier of the score that can be increased with upgrades.*/
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	float ScoreMultiplier{1.22f};
+
 	/** Time until the round ends. i.e 120 means that this level will last for 2 minutes (shop is open for 120 seconds)*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float ShopDuration{60.0f};
@@ -102,4 +112,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FTimerHandle GetShopDurationTimerHandle() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetPlayerScore() const;
 };

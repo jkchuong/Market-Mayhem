@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ReturnToMenu();
 
+	UPROPERTY(BlueprintReadOnly)
+	float Score{0.0f};
+
 private:
 
 	UPROPERTY(EditAnywhere)

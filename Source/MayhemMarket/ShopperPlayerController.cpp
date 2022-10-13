@@ -20,15 +20,12 @@ void AShopperPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
 {
     Super::GameHasEnded(EndGameFocus, bIsWinner);
 
-    UE_LOG(LogTemp, Warning, TEXT("In Controller"));
-
     HUDScreen->RemoveFromViewport();
 
     EndScreen = CreateWidget(this, EndScreenClass);
     EndScreen->AddToViewport();
 
     SetShowMouseCursor(true);
-    
 }
 
 void AShopperPlayerController::ReturnToMenu()

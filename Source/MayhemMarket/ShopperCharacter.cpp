@@ -145,6 +145,8 @@ void AShopperCharacter::RemoveItemFromShoppingCart()
 		}
 	}
 
+	Score += 100 * ScoreMultiplier;
+
 	// If we reach here, that means shipping list item value <= 0 for all items so we need to generate new list
 	GenerateShoppingList();
 
@@ -180,10 +182,10 @@ void AShopperCharacter::CloseShop()
 	if (GameModeBase)
 	{
 		// TODO: Replace with score when score system in place
-		GameModeBase->EndGame(0.0f);
+		GameModeBase->EndGame(Score);
 	}
 
-	DetachFromControllerPendingDestroy();
+	// DetachFromControllerPendingDestroy();
 }
 
 FString AShopperCharacter::GetStringFromMap(const TMap<FString, int>& Map) const
@@ -231,6 +233,9 @@ FTimerHandle AShopperCharacter::GetShopDurationTimerHandle() const
 	return ShopDurationTimerHandle;
 }
 
-
+float AShopperCharacter::GetPlayerScore() const
+{
+	return Score;
+}
 
 
