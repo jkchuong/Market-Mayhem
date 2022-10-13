@@ -51,6 +51,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StorageMesh;
 
+	/** Time it takes to restock the item zone. Upgrading will reduce the time to restock. */
 	FTimerHandle RestockTimerHandle;
 	float TimeToRestock{5};
 
@@ -72,4 +73,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	float GetStockPercentageRemaining() const;
+
+	UFUNCTION(BlueprintPure)
+	FTimerHandle GetRestockTimerHandle() const;
 };

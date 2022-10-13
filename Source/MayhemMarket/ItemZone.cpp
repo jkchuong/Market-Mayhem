@@ -90,3 +90,8 @@ float AItemZone::GetStockPercentageRemaining() const
 {
 	return (Stock / static_cast<float>(MaximumStock));
 }
+
+FTimerHandle AItemZone::GetRestockTimerHandle() const
+{
+	return RestockTimerHandle;
+}
