@@ -30,5 +30,9 @@ private:
 	UPROPERTY()
 	UUserWidget* HUDScreen;
 
-
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> EndScreenClass;
+	
+	UPROPERTY()
+	UUserWidget* EndScreen;
 };
