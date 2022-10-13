@@ -26,4 +26,12 @@ void AShopperPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
 
     EndScreen = CreateWidget(this, EndScreenClass);
     EndScreen->AddToViewport();
+
+    SetShowMouseCursor(true);
+    
+}
+
+void AShopperPlayerController::ReturnToMenu()
+{
+    APlayerController::RestartLevel();
 }

@@ -22,6 +22,9 @@ public:
 	
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
+	UFUNCTION(BlueprintCallable)
+	void ReturnToMenu();
+
 private:
 
 	UPROPERTY(EditAnywhere)

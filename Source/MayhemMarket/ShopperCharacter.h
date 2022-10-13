@@ -41,6 +41,10 @@ private:
 	UCapsuleComponent* CapsuleComponent;
 	FTimerHandle TransferRateTimerHandle;
 
+	/** The mesh for the shopping trolley. Will do the generate overlap events*/
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	UStaticMeshComponent* ShoppingCartMesh;
+
 	/** The rate at which the player adds items to the shopping cart.*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float TakeItemRate{2.0f};

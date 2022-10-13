@@ -20,6 +20,9 @@ AShopperCharacter::AShopperCharacter()
 	AddOwnedComponent(ShoppingCart);
 	
 	CapsuleComponent = GetCapsuleComponent();
+	
+	ShoppingCartMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shopping Cart Mesh"));
+	ShoppingCartMesh->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -36,7 +39,8 @@ void AShopperCharacter::BeginPlay()
 	for (int Item{0}; Item != static_cast<int>(ItemEnum::COUNT_MAX_ITEMS); Item++)
 	{
 		ItemEnum ItemAsEnum = static_cast<ItemEnum>(Item);
-		ShoppingList.Emplace(UEnum::GetValueAsString(ItemAsEnum), 0);
+		FString ItemAsFString = UEnum::GetValueAsString(ItemAsEnum);
+		ShoppingList.Emplace(ItemAsFString, 0);
 	}
 
 	// Generate initial shopping list here to begin the game
@@ -156,7 +160,16 @@ void AShopperCharacter::GenerateShoppingList()
 		ItemEnum ItemSelected = static_cast<ItemEnum>(FMath::RandRange(0, TotalPossibleItems - 1));
 		int NumberOfItemRequired = FMath::RandRange(5 * ShoppingListDifficulty, 20 * ShoppingListDifficulty);
 		FString ItemSelectedAsFString = UEnum::GetValueAsString(ItemSelected);
-		ShoppingList[ItemSelectedAsFString] += NumberOfItemRequired;
+
+		if (!ShoppingList.Contains(ItemSelectedAsFString))
+		{
+			ShoppingList.Emplace(ItemSelectedAsFString, NumberOfItemRequired);
+		}
+		else
+		{
+			ShoppingList[ItemSelectedAsFString] += NumberOfItemRequired;
+		}
+
 	}
 }
 
@@ -169,6 +182,8 @@ void AShopperCharacter::CloseShop()
 		// TODO: Replace with score when score system in place
 		GameModeBase->EndGame(0.0f);
 	}
+
+	DetachFromControllerPendingDestroy();
 }
 
 FString AShopperCharacter::GetStringFromMap(const TMap<FString, int>& Map) const
