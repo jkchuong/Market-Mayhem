@@ -33,6 +33,12 @@ void AShopperCharacter::BeginPlay()
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
 	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this,&AShopperCharacter::OnPlayerExitZone);
 
+	// For using the camera to rotate the player, but allow AI to rotate smoothly
+	if (IsPlayerControlled())
+	{
+		bUseControllerRotationYaw = true;
+	}
+
 	// Load upgrades from GameInstance here. This will give us persistent stats between level changes
 
 	// Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list

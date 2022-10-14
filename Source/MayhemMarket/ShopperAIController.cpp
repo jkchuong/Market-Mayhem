@@ -7,6 +7,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "ShopperCharacter.h"
 
+
 void AShopperAIController::BeginPlay()
 {
     Super::BeginPlay();
@@ -17,5 +18,10 @@ void AShopperAIController::BeginPlay()
     {
         RunBehaviorTree(AIBehavior);
         BlackboardComponent = GetBlackboardComponent();
-    }
+
+        // Initialize with locations and lists of all item zones in the area -> Don't need to constantly find it during gameplay
+
+
+	}    
+
 }
