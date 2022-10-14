@@ -24,8 +24,6 @@ void AShopperPlayerController::BeginPlay()
         }), TimeToBegin, false);
     }
 
-
-
     HUDScreen = CreateWidget(this, HUDScreenClass);
     if (HUDScreen)
     {

@@ -29,6 +29,9 @@ public:
 	float Score{0.0f};
 
 	UPROPERTY(BlueprintReadOnly)
+	TArray<float> TopScores;
+
+	UPROPERTY(BlueprintReadOnly)
 	float TimeToBegin{3.0f};
 
 	UPROPERTY(BlueprintReadOnly)

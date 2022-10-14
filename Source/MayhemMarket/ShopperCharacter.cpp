@@ -90,6 +90,8 @@ void AShopperCharacter::MoveRight(float AxisValue)
 
 void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Player Enter Zone"));
+
 	// Case for entering ItemZone
 	AItemZone* ItemZone = Cast<AItemZone>(OtherActor);
 	if (ItemZone)
@@ -116,6 +118,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 
 void AShopperCharacter::OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Player Exit Zone"));
 
 	GetWorldTimerManager().ClearTimer(TransferRateTimerHandle);
 }
@@ -134,6 +137,7 @@ void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
 
 void AShopperCharacter::RemoveItemFromShoppingCart()
 {
+	bool bShoppingListEmpty{true};
 	for (TPair<FString, int>& ShoppingListItem : ShoppingList)
 	{
 		// Return once an item is removed and wait for the next call from the FTimerHandle
@@ -141,20 +145,23 @@ void AShopperCharacter::RemoveItemFromShoppingCart()
 		// We want to remove items at a controlled rate
 		if (ShoppingListItem.Value > 0)
 		{
+			bShoppingListEmpty = false;
+
 			if (ShoppingCart->RemoveItem(ShoppingListItem.Key))
 			{
+				Score += 100 * ScoreMultiplier;
 				ShoppingListItem.Value--;
 				return;
 			}
-
-			return;
 		}
 	}
 
-	Score += 100 * ScoreMultiplier;
+	if (bShoppingListEmpty)
+	{
+		// If we reach here, that means shipping list item value <= 0 for all items so we need to generate new list
+		GenerateShoppingList();
+	}
 
-	// If we reach here, that means shipping list item value <= 0 for all items so we need to generate new list
-	GenerateShoppingList();
 
 }
 
