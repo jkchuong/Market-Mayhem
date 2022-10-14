@@ -30,8 +30,6 @@ void AMM_Classic_GameModeBase::EndGame(float Score)
         if (ShopperPlayerController)
         {
             ShopperPlayerController->Score = Score;
-
-            UE_LOG(LogTemp, Warning, TEXT("Score for %s: %f"), *ShopperPlayerController->GetPawn()->GetName(), Score);
         }
     }
      
