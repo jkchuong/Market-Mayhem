@@ -3,3 +3,19 @@
 
 #include "ShopperAIController.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "ShopperCharacter.h"
+
+void AShopperAIController::BeginPlay()
+{
+    Super::BeginPlay();
+
+    APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
+    if (AIBehavior && PlayerPawn)
+    {
+        RunBehaviorTree(AIBehavior);
+        BlackboardComponent = GetBlackboardComponent();
+    }
+}

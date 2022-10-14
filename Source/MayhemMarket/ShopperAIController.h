@@ -13,5 +13,20 @@ UCLASS()
 class MAYHEMMARKET_API AShopperAIController : public AAIController
 {
 	GENERATED_BODY()
+
+protected:
+
+	virtual void BeginPlay() override;
+
+private:
+
+	/** How close to the item zone they should get. */
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float AcceptanceRadius{100};
+
+	UPROPERTY(EditAnywhere)
+	UBehaviorTree* AIBehavior;
+
+	UBlackboardComponent* BlackboardComponent;
 	
 };
