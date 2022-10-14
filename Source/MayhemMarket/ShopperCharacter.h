@@ -122,4 +122,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OpenShop();
+
+	TMap<FString, int> GetShoppingList() const;
 };

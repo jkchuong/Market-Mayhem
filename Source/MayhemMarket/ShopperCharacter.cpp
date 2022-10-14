@@ -253,3 +253,12 @@ void AShopperCharacter::OpenShop()
 	}
 }
 
+TMap<FString, int> AShopperCharacter::GetShoppingList() const
+{
+	return ShoppingList;
+}
+
+
+
+
+
