@@ -30,22 +30,21 @@ EBTNodeResult::Type UBTTask_CheckShoppingList::ExecuteTask(UBehaviorTreeComponen
     // Shopping list is not complete if shopping cart either doesn't have the item, or there's not enough of the item
 
     bool bShoppingListCompleted{true};
+    FString RequiredItem;
+
     for (TPair<FString, int> ListItem : ShoppingList)
     {
-        if (!ShoppingCart.Contains(ListItem.Key))
+        if (!ShoppingCart.Contains(ListItem.Key) || ShoppingCart[ListItem.Key] < ListItem.Value)
         {
             bShoppingListCompleted = false;
-            break;
-        }
-
-        if (ShoppingCart[ListItem.Key] < ListItem.Value)
-        {
-            bShoppingListCompleted = false;
+            RequiredItem = ListItem.Key;
             break;
         }
     }
 
     OwnerComp.GetBlackboardComponent()->SetValueAsBool(GetSelectedBlackboardKey(), bShoppingListCompleted);
+    OwnerComp.GetBlackboardComponent()->SetValueAsString(TEXT("RequiredItemName"), RequiredItem);
+
 
     return EBTNodeResult::Succeeded;
 
