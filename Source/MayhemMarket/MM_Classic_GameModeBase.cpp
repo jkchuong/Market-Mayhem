@@ -22,9 +22,17 @@ void AMM_Classic_GameModeBase::EndGame(float Score)
     // TODO: Sort the top 3 scores then pass to player controller to display
 
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-    PlayerController->GameHasEnded(PlayerController->GetPawn(), true);
+    
+    if (PlayerController)
+    {
+        PlayerController->GameHasEnded(PlayerController->GetPawn(), true);
+        AShopperPlayerController* ShopperPlayerController = Cast<AShopperPlayerController>(PlayerController);
+        if (ShopperPlayerController)
+        {
+            ShopperPlayerController->Score = Score;
 
-    AShopperPlayerController* ShopperPlayerController = Cast<AShopperPlayerController>(PlayerController);
-    ShopperPlayerController->Score = Score;
-
+            UE_LOG(LogTemp, Warning, TEXT("Score for %s: %f"), *ShopperPlayerController->GetPawn()->GetName(), Score);
+        }
+    }
+     
 }

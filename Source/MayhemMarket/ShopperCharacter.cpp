@@ -46,8 +46,11 @@ void AShopperCharacter::BeginPlay()
 	// Generate initial shopping list here to begin the game
 	GenerateShoppingList();
 
-	// Begin the timer for this round
-	GetWorldTimerManager().SetTimer(ShopDurationTimerHandle, this, &AShopperCharacter::CloseShop, ShopDuration);
+	// Begin the timer for this round. Only want the player to have this
+	if (IsPlayerControlled())
+	{
+		GetWorldTimerManager().SetTimer(ShopDurationTimerHandle, this, &AShopperCharacter::CloseShop, ShopDuration);
+	}
 }
 
 // Called every frame
@@ -181,11 +184,10 @@ void AShopperCharacter::CloseShop()
 
 	if (GameModeBase)
 	{
-		// TODO: Replace with score when score system in place
 		GameModeBase->EndGame(Score);
 	}
 
-	// DetachFromControllerPendingDestroy();
+	DetachFromControllerPendingDestroy();
 }
 
 FString AShopperCharacter::GetStringFromMap(const TMap<FString, int>& Map) const
