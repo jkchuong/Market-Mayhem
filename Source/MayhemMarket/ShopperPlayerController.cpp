@@ -18,9 +18,9 @@ void AShopperPlayerController::BeginPlay()
 
         // TODO: Move this to when the player clicks begin when start UI is done
         // Delay at the start of the game so the player isn't thrown into it immediately
-        FTimerHandle DelayInputTimerHandle;
         GetWorldTimerManager().SetTimer(DelayInputTimerHandle, FTimerDelegate::CreateLambda([Shopper]{
             Shopper->bCanMove = true;
+            Shopper->OpenShop();
         }), TimeToBegin, false);
     }
 

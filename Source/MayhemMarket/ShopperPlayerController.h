@@ -31,6 +31,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	float TimeToBegin{3.0f};
 
+	UPROPERTY(BlueprintReadOnly)
+	FTimerHandle DelayInputTimerHandle;
+
 	void DelayInput();
 
 private:

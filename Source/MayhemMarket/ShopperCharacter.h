@@ -120,5 +120,6 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetPlayerScore() const;
 
-
+	UFUNCTION(BlueprintCallable)
+	void OpenShop();
 };

@@ -46,11 +46,6 @@ void AShopperCharacter::BeginPlay()
 	// Generate initial shopping list here to begin the game
 	GenerateShoppingList();
 
-	// Begin the timer for this round. Only want the player to have this
-	if (IsPlayerControlled())
-	{
-		GetWorldTimerManager().SetTimer(ShopDurationTimerHandle, this, &AShopperCharacter::CloseShop, ShopDuration);
-	}
 }
 
 // Called every frame
@@ -242,4 +237,11 @@ float AShopperCharacter::GetPlayerScore() const
 	return Score;
 }
 
+void AShopperCharacter::OpenShop()
+{
+	if (IsPlayerControlled())
+	{
+		GetWorldTimerManager().SetTimer(ShopDurationTimerHandle, this, &AShopperCharacter::CloseShop, ShopDuration);
+	}
+}
 
