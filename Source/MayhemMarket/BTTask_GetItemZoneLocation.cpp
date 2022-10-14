@@ -2,6 +2,7 @@
 
 
 #include "BTTask_GetItemZoneLocation.h"
+
 #include "ShopperCharacter.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -20,18 +21,10 @@ EBTNodeResult::Type UBTTask_GetItemZoneLocation::ExecuteTask(UBehaviorTreeCompon
 {
     Super::ExecuteTask(OwnerComp, NodeMemory);
 
-    AShopperCharacter* Shopper = Cast<AShopperCharacter>(OwnerComp.GetAIOwner()->GetPawn());
-
-    if (!Shopper)
-    {
-        return EBTNodeResult::Failed;
-    }
-
     FString RequiredItemName = OwnerComp.GetBlackboardComponent()->GetValueAsString(TEXT("RequiredItemName"));
     FVector ItemZoneDestination;
 
     // Find the correct item zone by looping through the actors and looking for it.
-
     for (AItemZone* ItemZone : TActorRange<AItemZone>(GetWorld()))
     {
         FString ItemZoneType = ItemZone->GetItem()->ItemName;

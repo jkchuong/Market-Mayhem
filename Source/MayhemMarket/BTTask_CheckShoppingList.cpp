@@ -28,12 +28,16 @@ EBTNodeResult::Type UBTTask_CheckShoppingList::ExecuteTask(UBehaviorTreeComponen
     TMap<FString, int> ShoppingCart = Shopper->ShoppingCart->GetStorage();
 
     // Shopping list is not complete if shopping cart either doesn't have the item, or there's not enough of the item
-
     bool bShoppingListCompleted{true};
     FString RequiredItem;
 
     for (TPair<FString, int> ListItem : ShoppingList)
     {
+        if (ListItem.Value <= 0)
+        {
+            continue;
+        }
+
         if (!ShoppingCart.Contains(ListItem.Key) || ShoppingCart[ListItem.Key] < ListItem.Value)
         {
             bShoppingListCompleted = false;

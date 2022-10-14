@@ -43,7 +43,7 @@ void AShopperCharacter::BeginPlay()
 
 	// Load upgrades from GameInstance here. This will give us persistent stats between level changes
 
-	// Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list
+	// // Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list
 	for (int Item{0}; Item != static_cast<int>(ItemEnum::COUNT_MAX_ITEMS); Item++)
 	{
 		ItemEnum ItemAsEnum = static_cast<ItemEnum>(Item);
@@ -51,7 +51,7 @@ void AShopperCharacter::BeginPlay()
 		ShoppingList.Emplace(ItemAsFString, 0);
 	}
 
-	// Generate initial shopping list here to begin the game
+	// // Generate initial shopping list here to begin the game
 	GenerateShoppingList();
 
 }
