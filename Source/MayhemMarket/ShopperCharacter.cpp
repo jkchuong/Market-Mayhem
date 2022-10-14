@@ -9,6 +9,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Item.h"
 #include "MayhemMarketGameModeBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AShopperCharacter::AShopperCharacter()
@@ -37,6 +38,7 @@ void AShopperCharacter::BeginPlay()
 	if (IsPlayerControlled())
 	{
 		bUseControllerRotationYaw = true;
+		GetCharacterMovement()->bOrientRotationToMovement = false;
 	}
 
 	// Load upgrades from GameInstance here. This will give us persistent stats between level changes
