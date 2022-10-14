@@ -75,11 +75,13 @@ void AShopperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 void AShopperCharacter::MoveForward(float AxisValue)
 {
+	if (!bCanMove) return;
 	AddMovementInput(GetActorForwardVector() * AxisValue);
 }
 
 void AShopperCharacter::MoveRight(float AxisValue)
 {
+	if (!bCanMove) return;
 	AddMovementInput(GetActorRightVector() * AxisValue);
 }
 

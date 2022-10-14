@@ -98,6 +98,10 @@ private:
 
 public:
 
+	/** For taking away player controls before the round begins.*/
+	UPROPERTY(EditAnywhere, Category="Shopping", BlueprintReadWrite)
+	bool bCanMove{true};
+
 	UPROPERTY(EditAnywhere, Category="Shopping", BlueprintReadWrite)
 	class UShoppingCart* ShoppingCart;
 
@@ -115,4 +119,6 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	float GetPlayerScore() const;
+
+
 };

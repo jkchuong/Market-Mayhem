@@ -28,6 +28,11 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	float Score{0.0f};
 
+	UPROPERTY(BlueprintReadOnly)
+	float TimeToBegin{3.0f};
+
+	void DelayInput();
+
 private:
 
 	UPROPERTY(EditAnywhere)

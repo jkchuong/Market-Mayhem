@@ -4,10 +4,27 @@
 #include "ShopperPlayerController.h"
 
 #include "Blueprint/UserWidget.h"
+#include "ShopperCharacter.h"
 
 void AShopperPlayerController::BeginPlay()
 {
     Super::BeginPlay();
+
+    AShopperCharacter* Shopper = Cast<AShopperCharacter>(GetPawn());
+
+    if (Shopper)
+    {
+        Shopper->bCanMove = false;
+
+        // TODO: Move this to when the player clicks begin when start UI is done
+        // Delay at the start of the game so the player isn't thrown into it immediately
+        FTimerHandle DelayInputTimerHandle;
+        GetWorldTimerManager().SetTimer(DelayInputTimerHandle, FTimerDelegate::CreateLambda([Shopper]{
+            Shopper->bCanMove = true;
+        }), TimeToBegin, false);
+    }
+
+
 
     HUDScreen = CreateWidget(this, HUDScreenClass);
     if (HUDScreen)
