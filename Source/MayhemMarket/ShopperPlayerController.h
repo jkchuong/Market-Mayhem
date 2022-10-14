@@ -25,19 +25,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ReturnToMenu();
 
-	UPROPERTY(BlueprintReadOnly)
-	float Score{0.0f};
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	float PlayerScore{0.0f};
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<float> TopScores;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float TimeToBegin{3.0f};
 
 	UPROPERTY(BlueprintReadOnly)
 	FTimerHandle DelayInputTimerHandle;
 
-	void DelayInput();
+	UFUNCTION(BlueprintPure)
+	FString GetScoresAsFString() const;
+
 
 private:
 

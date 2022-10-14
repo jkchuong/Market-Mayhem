@@ -47,3 +47,16 @@ void AShopperPlayerController::ReturnToMenu()
 {
     APlayerController::RestartLevel();
 }
+
+FString AShopperPlayerController::GetScoresAsFString() const
+{
+    FString ReturnString;
+
+    for (float Score : TopScores)
+    {
+        ReturnString += FString::SanitizeFloat(Score);
+		ReturnString += LINE_TERMINATOR;
+    }
+
+    return ReturnString;
+}

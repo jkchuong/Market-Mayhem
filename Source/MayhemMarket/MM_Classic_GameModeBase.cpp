@@ -34,9 +34,9 @@ void AMM_Classic_GameModeBase::EndGame(float Score)
             AllScores.Add(Shopper->GetPlayerScore());
         }
 
-        ShopperPlayerController->Score = Score;
-        AllScores.Add(ShopperPlayerController->Score);
-        AllScores.Sort();
+        ShopperPlayerController->PlayerScore = Score;
+        AllScores.Add(ShopperPlayerController->PlayerScore);
+        AllScores.Sort([](const float& a, const float& b){return a > b;});
         AllScores.SetNum(3);
         ShopperPlayerController->TopScores = AllScores;
 
