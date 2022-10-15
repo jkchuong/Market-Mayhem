@@ -259,6 +259,10 @@ TMap<FString, int> AShopperCharacter::GetShoppingList() const
 	return ShoppingList;
 }
 
+bool AShopperCharacter::IsShopOpen() const
+{
+	return ShopDurationTimerHandle.IsValid();
+}
 
 
 

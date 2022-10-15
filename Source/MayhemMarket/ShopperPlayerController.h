@@ -40,8 +40,16 @@ public:
 	UFUNCTION(BlueprintPure)
 	FString GetScoresAsFString() const;
 
+	UFUNCTION(BlueprintCallable)
+	void BeginGame();
 
 private:
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> StartScreenClass;
+
+	UPROPERTY()
+	UUserWidget* StartScreen;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> HUDScreenClass;

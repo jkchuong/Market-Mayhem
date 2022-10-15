@@ -124,4 +124,5 @@ public:
 	void OpenShop();
 
 	TMap<FString, int> GetShoppingList() const;
+	bool IsShopOpen() const;
 };
