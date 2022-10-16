@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ShopperCharacter.h"
 #include "EngineUtils.h"
+#include "UpgradesSaveGame.h"
+#include "Kismet/GameplayStatics.h"
 
 void AShopperPlayerController::BeginPlay()
 {
@@ -81,5 +83,15 @@ void AShopperPlayerController::BeginGame()
     if (HUDScreen)
     {
         HUDScreen->AddToViewport();
+    }
+}
+
+void AShopperPlayerController::ApplySaveToPlayer(UUpgradesSaveGame* SavedGame)
+{
+    AShopperCharacter* Shopper = Cast<AShopperCharacter>(GetPawn());
+
+    if (Shopper)
+    {
+        Shopper->SetPlayerFinalStats(SavedGame);
     }
 }

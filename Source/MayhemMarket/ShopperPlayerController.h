@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void BeginGame();
 
+	UFUNCTION(BlueprintCallable)
+	void ApplySaveToPlayer(UUpgradesSaveGame* SavedGame);
+
 private:
 
 	UPROPERTY(EditAnywhere)

@@ -10,6 +10,8 @@
 #include "Item.h"
 #include "MayhemMarketGameModeBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "UpgradesSaveGame.h"
 
 // Sets default values
 AShopperCharacter::AShopperCharacter()
@@ -41,9 +43,7 @@ void AShopperCharacter::BeginPlay()
 		GetCharacterMovement()->bOrientRotationToMovement = false;
 	}
 
-	// Load upgrades from GameInstance here. This will give us persistent stats between level changes
-
-	// // Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list
+	// Initialise empty shopping list so we don't need to loop to check if it contains something every time we generate a random shopping list
 	for (int Item{0}; Item != static_cast<int>(ItemEnum::COUNT_MAX_ITEMS); Item++)
 	{
 		ItemEnum ItemAsEnum = static_cast<ItemEnum>(Item);
@@ -51,7 +51,7 @@ void AShopperCharacter::BeginPlay()
 		ShoppingList.Emplace(ItemAsFString, 0);
 	}
 
-	// // Generate initial shopping list here to begin the game
+	// Generate initial shopping list here to begin the game
 	GenerateShoppingList();
 
 }
@@ -102,7 +102,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 			ItemZone
 		);
 
-		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, TakeItemRate, true);
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, 1/BaseTakeItemRate, true);
 	}
 
 	// Case for entering PurchaseZone
@@ -110,7 +110,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 	if (PurchaseZone)
 	{
 		// Start timer that starts removing things from the player
-		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::RemoveItemFromShoppingCart, PurchaseItemRate, true);
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::RemoveItemFromShoppingCart, 1/BasePurchaseItemRate, true);
 	}
 }
 
@@ -264,6 +264,14 @@ bool AShopperCharacter::IsShopOpen() const
 	return ShopDurationTimerHandle.IsValid();
 }
 
-
+void AShopperCharacter::SetPlayerFinalStats(UUpgradesSaveGame* SavedGame)
+{
+	// Load upgrades from Save Data here. This will give us persistent stats between level changes.
+	// Synchronous loading used as there isn't much data to load. Use asynchronous loading if it expands.
+	if (SavedGame)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih score multiplier: %d"), SavedGame->ScoreMultiplier);
+	}
+}
 
 

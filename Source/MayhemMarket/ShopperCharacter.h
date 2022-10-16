@@ -45,13 +45,13 @@ private:
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	UStaticMeshComponent* ShoppingCartMesh;
 
-	/** The rate at which the player adds items to the shopping cart.*/
+	/** The number of items the player takes per second.*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
-	float TakeItemRate{2.0f};
+	float BaseTakeItemRate{10.0f};
 
-	/** The rate at which the player purchases items at the purchase zone (shopping counter).*/
+	/** The number of items the player purchases per second.*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
-	float PurchaseItemRate{1.0f};
+	float BasePurchaseItemRate{12.0f};
 
 	/** The scaling of the shopping lists. This number adds to the total number of times a new item is generated for a single shopping list.
 	 *  It also multiplies the random range the shopping list could request.
@@ -68,12 +68,22 @@ private:
 
 	/** The Multiplier of the score that can be increased with upgrades.*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
-	float ScoreMultiplier{1.22f};
+	float ScoreMultiplier{1};
 
 	/** Time until the round ends. i.e 120 means that this level will last for 2 minutes (shop is open for 120 seconds)*/
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	float ShopDuration{60.0f};
 	FTimerHandle ShopDurationTimerHandle;
+
+	/**
+	 * FINAL STATS AFTER TAKING ACCOUNT UPGRADES FROM THE SAVEGAME CLASS
+	*/
+
+
+
+	/**
+	 * FUNCTIONS
+	*/
 
 	UFUNCTION()
 	void OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);
@@ -122,6 +132,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OpenShop();
+
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerFinalStats(class UUpgradesSaveGame* SavedGame);
 
 	TMap<FString, int> GetShoppingList() const;
 	bool IsShopOpen() const;
