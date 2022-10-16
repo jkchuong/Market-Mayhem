@@ -61,6 +61,12 @@ private:
 	UUserWidget* HUDScreen;
 
 	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> UpgradeScreenClass;
+
+	UPROPERTY()
+	UUserWidget* UpgradeScreen;
+
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> EndScreenClass;
 	
 	UPROPERTY()

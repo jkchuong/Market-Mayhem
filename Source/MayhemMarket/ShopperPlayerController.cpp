@@ -38,6 +38,14 @@ void AShopperPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
     EndScreen->AddToViewport();
 
     SetShowMouseCursor(true);
+
+    // Get saved game to add points from the score 
+    if (UUpgradesSaveGame* LoadedGame = Cast<UUpgradesSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("Player1"), 0)))
+    {
+        LoadedGame->Points += PlayerScore;
+        UGameplayStatics::SaveGameToSlot(LoadedGame, LoadedGame->SaveSlotName, 0);
+    }
+
 }
 
 void AShopperPlayerController::ReturnToMenu()

@@ -271,6 +271,7 @@ void AShopperCharacter::SetPlayerFinalStats(UUpgradesSaveGame* SavedGame)
 	if (SavedGame)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih score multiplier: %d"), SavedGame->ScoreMultiplier);
+		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih points: %d"), SavedGame->Points);
 	}
 }
 
