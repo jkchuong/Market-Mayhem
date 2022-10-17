@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
+#include "UpgradesSaveGame.h"
 
 // Sets default values
 AItemZone::AItemZone()
@@ -91,4 +92,13 @@ float AItemZone::GetStockPercentageRemaining() const
 FTimerHandle AItemZone::GetRestockTimerHandle() const
 {
 	return RestockTimerHandle;
+}
+
+void AItemZone::SetFinalStats(UUpgradesSaveGame* SavedGame)
+{
+	if (SavedGame)
+	{
+		Stock = 100 + (SavedGame->ItemZoneCapacity * 10);
+		TimeToRestock = 5 * (FMath::Pow(0.975, SavedGame->ItemZoneRestockRate));
+	}
 }

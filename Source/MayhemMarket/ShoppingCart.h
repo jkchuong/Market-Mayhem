@@ -30,11 +30,14 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TMap<FString, int> Storage{};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
-	float MaximumCapacity{200};
-
+	
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float BaseCapacity{100};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaximumCapacity{100};
 
 	UFUNCTION(BlueprintCallable)
 	bool AddItem(FString ItemToAdd);

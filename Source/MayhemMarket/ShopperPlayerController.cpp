@@ -9,6 +9,7 @@
 #include "UpgradesSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "ItemZone.h"
 
 AShopperPlayerController::AShopperPlayerController()
 {
@@ -123,6 +124,11 @@ void AShopperPlayerController::ApplySaveToPlayer(UUpgradesSaveGame* SavedGame)
     if (Shopper)
     {
         Shopper->SetPlayerFinalStats(SavedGame);
+    }
+
+    for (AItemZone* ItemZone : TActorRange<AItemZone>(GetWorld()))
+    {
+        ItemZone->SetFinalStats(SavedGame);
     }
 }
 

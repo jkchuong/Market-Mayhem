@@ -13,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "UpgradesSaveGame.h"
 
+
 // Sets default values
 AShopperCharacter::AShopperCharacter()
 {
@@ -102,7 +103,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 			ItemZone
 		);
 
-		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, 1/BaseTakeItemRate, true);
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, TransferEnableTimerDelegate, 1/TakeItemRate, true);
 	}
 
 	// Case for entering PurchaseZone
@@ -110,7 +111,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 	if (PurchaseZone)
 	{
 		// Start timer that starts removing things from the player
-		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::RemoveItemFromShoppingCart, 1/BasePurchaseItemRate, true);
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::RemoveItemFromShoppingCart, 1/PurchaseItemRate, true);
 	}
 }
 
@@ -145,7 +146,7 @@ void AShopperCharacter::RemoveItemFromShoppingCart()
 
 			if (ShoppingCart->RemoveItem(ShoppingListItem.Key))
 			{
-				Score += 100 * ScoreMultiplier;
+				Score += ScoreMultiplier;
 				ShoppingListItem.Value--;
 				return;
 			}
@@ -248,6 +249,8 @@ float AShopperCharacter::GetPlayerScore() const
 
 void AShopperCharacter::OpenShop()
 {
+	GetMesh()->WakeAllRigidBodies();
+
 	if (IsPlayerControlled())
 	{
 		GetWorldTimerManager().SetTimer(ShopDurationTimerHandle, this, &AShopperCharacter::CloseShop, ShopDuration);
@@ -269,9 +272,16 @@ void AShopperCharacter::SetPlayerFinalStats(UUpgradesSaveGame* SavedGame)
 	// Load upgrades from Save Data here. This will give us persistent stats between level changes.
 	// Synchronous loading used as there isn't much data to load. Use asynchronous loading if it expands.
 	if (SavedGame)
-	{
+	{	
 		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih score multiplier: %d"), SavedGame->ScoreMultiplier);
 		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih points: %d"), SavedGame->Points);
+
+		ScoreMultiplier = 100 * FMath::Pow(1.02, SavedGame->ScoreMultiplier);
+		MovementSpeed = FMath::Pow(1.1, SavedGame->Movement);
+		GetCharacterMovement()->MaxWalkSpeed = 600 * MovementSpeed;
+		ShoppingCart->MaximumCapacity = ShoppingCart->BaseCapacity + (10 * SavedGame->CartCapacity);
+		TakeItemRate = BaseTakeItemRate + (1.5 * SavedGame->TakeItemRate);
+		PurchaseItemRate = BasePurchaseItemRate + (1.5 * SavedGame->PurchaseItemRate);
 	}
 }
 

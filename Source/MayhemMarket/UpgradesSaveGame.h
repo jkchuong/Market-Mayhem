@@ -36,7 +36,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
 	int ScoreMultiplier{0};
 
-	/** The movement speed of the player. Final movement speed = Base movement speed * (1 + (Movement Upgrade * 0.1)). */
+	/** The movement speed of the player. Final movement speed = Base movement speed * (1.05 ^ Movement Upgrade). */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
 	int Movement{0};
 

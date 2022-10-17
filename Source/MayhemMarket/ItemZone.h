@@ -72,4 +72,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FTimerHandle GetRestockTimerHandle() const;
+
+	UFUNCTION()
+	void SetFinalStats(class UUpgradesSaveGame* SavedGame);
 };
