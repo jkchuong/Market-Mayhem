@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "UpgradesSaveGame.h"
+#include "Particles/ParticleSystemComponent.h"
 
 
 // Sets default values
@@ -27,6 +28,9 @@ AShopperCharacter::AShopperCharacter()
 	
 	ShoppingCartMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shopping Cart Mesh"));
 	ShoppingCartMesh->SetupAttachment(RootComponent);
+
+	TrailParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Trail Particles"));
+	TrailParticles->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -61,6 +65,16 @@ void AShopperCharacter::BeginPlay()
 void AShopperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	
+	if (GetVelocity().Length() > 0)
+	{
+		TrailParticles->Activate();
+	}
+	else
+	{
+		TrailParticles->Deactivate();
+	}
 
 }
 

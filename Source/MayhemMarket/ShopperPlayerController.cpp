@@ -104,10 +104,7 @@ void AShopperPlayerController::BeginGame()
         // Don't let anyone move until the delay before the round has begun. Only want timer on the actual player character.
         GetWorldTimerManager().SetTimer(DelayInputTimerHandle, FTimerDelegate::CreateLambda([Shopper]{
             Shopper->bCanMove = true;
-            if (Shopper->IsPlayerControlled())
-            {
-                Shopper->OpenShop();
-            }
+            Shopper->OpenShop();
         }), TimeToBegin, false);
     }
 

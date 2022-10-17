@@ -107,6 +107,10 @@ private:
 	UFUNCTION()
 	void CloseShop();
 
+	/** For Spawning smoke trailes behind the cart*/
+	UPROPERTY(EditAnywhere, Category="Movement")
+	UParticleSystemComponent* TrailParticles;
+
 	FString GetStringFromMap(const TMap<FString, int>& Map) const;
 
 public:
