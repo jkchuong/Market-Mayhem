@@ -69,6 +69,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int GetUpgradeCostFromLevel(int UpgradeLevel) const;
 
+	UFUNCTION(BlueprintPure)
+	bool IsUpgradeScreenDisplayed() const;
+
 private:
 
 	TArray<UUserWidget*> AllScreens;

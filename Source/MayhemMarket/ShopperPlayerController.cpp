@@ -171,3 +171,8 @@ int AShopperPlayerController::GetUpgradeCostFromLevel(int UpgradeLevel) const
 {
     return FMath::Floor(BaseUpgradeCost * (FMath::Pow(RateUpgradeIncrease, UpgradeLevel)));
 }
+
+bool AShopperPlayerController::IsUpgradeScreenDisplayed() const
+{
+    return UpgradeScreen->IsInViewport();
+}
