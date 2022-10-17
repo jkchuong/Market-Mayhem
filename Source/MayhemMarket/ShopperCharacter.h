@@ -76,12 +76,6 @@ private:
 	FTimerHandle ShopDurationTimerHandle;
 
 	/**
-	 * FINAL STATS AFTER TAKING ACCOUNT UPGRADES FROM THE SAVEGAME CLASS
-	*/
-
-
-
-	/**
 	 * FUNCTIONS
 	*/
 

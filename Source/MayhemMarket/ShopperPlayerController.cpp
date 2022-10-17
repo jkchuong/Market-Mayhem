@@ -8,16 +8,37 @@
 #include "EngineUtils.h"
 #include "UpgradesSaveGame.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+
+AShopperPlayerController::AShopperPlayerController()
+{
+
+}
 
 void AShopperPlayerController::BeginPlay()
 {
     Super::BeginPlay();
 
+    // Initialize the array with valid screens
+    BackgroundScreen = CreateWidget(this, BackgroundScreenClass);
     StartScreen = CreateWidget(this, StartScreenClass);
-    if (StartScreen)
+    EndScreen = CreateWidget(this, EndScreenClass);
+    HUDScreen = CreateWidget(this, HUDScreenClass);
+    UpgradeScreen = CreateWidget(this, UpgradeScreenClass);
+    CreditsScreen = CreateWidget(this, CreditsScreenClass);
+
+    AllScreens.Add(StartScreen);
+    AllScreens.Add(HUDScreen);
+    AllScreens.Add(EndScreen);
+    AllScreens.Add(UpgradeScreen);
+    AllScreens.Add(CreditsScreen);
+
+    if (BackgroundScreen)
     {
-        StartScreen->AddToViewport();
-    }
+        BackgroundScreen->AddToViewport();
+    }  
+
+    ChangeScreenTo(StartScreen);
 
     SetShowMouseCursor(true);
 
@@ -32,10 +53,7 @@ void AShopperPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
 {
     Super::GameHasEnded(EndGameFocus, bIsWinner);
 
-    HUDScreen->RemoveFromViewport();
-
-    EndScreen = CreateWidget(this, EndScreenClass);
-    EndScreen->AddToViewport();
+    ChangeScreenTo(EndScreen);
 
     SetShowMouseCursor(true);
 
@@ -73,6 +91,11 @@ void AShopperPlayerController::BeginGame()
         StartScreen->RemoveFromViewport();
     }
 
+    if (BackgroundScreen)
+    {
+        BackgroundScreen->RemoveFromViewport();
+    }
+
     SetShowMouseCursor(false);
 
     for (AShopperCharacter* Shopper : TActorRange<AShopperCharacter>(GetWorld()))
@@ -87,7 +110,6 @@ void AShopperPlayerController::BeginGame()
         }), TimeToBegin, false);
     }
 
-    HUDScreen = CreateWidget(this, HUDScreenClass);
     if (HUDScreen)
     {
         HUDScreen->AddToViewport();
@@ -102,4 +124,47 @@ void AShopperPlayerController::ApplySaveToPlayer(UUpgradesSaveGame* SavedGame)
     {
         Shopper->SetPlayerFinalStats(SavedGame);
     }
+}
+
+void AShopperPlayerController::OnClickUpgrade()
+{
+    ChangeScreenTo(UpgradeScreen);
+}
+
+void AShopperPlayerController::OnClickCredits()
+{
+    ChangeScreenTo(CreditsScreen);
+}
+
+void AShopperPlayerController::OnClickReturn()
+{
+    ChangeScreenTo(StartScreen);
+}
+
+void AShopperPlayerController::OnClickQuit()
+{
+    UKismetSystemLibrary::QuitGame(this, this, EQuitPreference::Quit, false);
+}
+
+void AShopperPlayerController::ChangeScreenTo(UUserWidget* ScreenToChangeTo)
+{
+    // Reusable function to disable all the screens and only reenable the one we want showing.
+    for (UUserWidget* Screen : AllScreens)
+    {
+        if (Screen)
+        {
+            Screen->RemoveFromViewport();
+        }
+    }
+
+    if (ScreenToChangeTo)
+    {
+        ScreenToChangeTo->AddToViewport();
+    }
+
+}
+
+int AShopperPlayerController::GetUpgradeCostFromLevel(int UpgradeLevel) const
+{
+    return FMath::Floor(BaseUpgradeCost * (FMath::Pow(RateUpgradeIncrease, UpgradeLevel)));
 }

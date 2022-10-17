@@ -30,31 +30,33 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
 	int Points{0};
 
-	/** The score multiplied for each item you purchase. Item Score = Score * (1.02 ^ Score Multiplier)).*/
+	/** The score multiplied for each item you purchase. Item Score = Score * (1.02 ^ Score Multiplier)).
+	 *  Cost to upgrade will be Base * (1.41 ^ Level).
+	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int ScoreMultiplier{1};
+	int ScoreMultiplier{0};
 
 	/** The movement speed of the player. Final movement speed = Base movement speed * (1 + (Movement Upgrade * 0.1)). */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int Movement{1};
+	int Movement{0};
 
 	/** The capacity of the shopping cart of the players. Final Capacity = Base Capacity + (5 * CartCapacity Upgrade).*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int CartCapacity{1};
+	int CartCapacity{0};
 
 	/** Increase of the number of items to take per second. Final TakeItemRate = Base TakeItemRate + TakeItemRate Upgrade.*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int TakeItemRate{1};
+	int TakeItemRate{0};
 	
 	/** Increase of the number of items purchased per second. Final PurchaseItemRate = Base PurchaseItemRate + PurchaseItemRate Upgrade.*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int PurchaseItemRate{1};
+	int PurchaseItemRate{0};
 
 	/** The capacity of the item zones. Final Capacity = Base Capacity + (10 * ItemZoneCapacity Upgrade).*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int ItemZoneCapacity{1};
+	int ItemZoneCapacity{0};
 
 	/** Increase the rate at which item zones are restocked. Total time to restock = Base time to restock * (0.975 ^ RestockRateUpgrade).*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Ugprades")
-	int ItemZoneRestockRate{1};	
+	int ItemZoneRestockRate{0};	
 };
