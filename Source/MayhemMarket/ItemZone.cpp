@@ -32,10 +32,6 @@ AItemZone::AItemZone()
 	ItemCount->SetupAttachment(RootComponent);
 	ItemCount->SetRelativeLocation(FVector(0.0f, 0.0f, 180.0f));
 
-	ItemCountBack = CreateDefaultSubobject<UWidgetComponent>(TEXT("Item Count Widget Back"));
-	ItemCountBack->SetupAttachment(ItemCount);
-	ItemCountBack->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
-
 	Restock();
 }
 
@@ -43,14 +39,15 @@ AItemZone::AItemZone()
 void AItemZone::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	DrawDebugBox(GetWorld(), GetActorLocation(), TriggerZone->GetScaledBoxExtent(), GetActorRotation().Quaternion(), FColor::Green, true);
 
 	// Spawn the display to represent the item that can be purchased at this zone
-	Item = GetWorld()->SpawnActor<AItem>(ItemClass);
-	Item->AttachToComponent(ItemDisplayPosition, FAttachmentTransformRules::KeepRelativeTransform, TEXT("Item Display"));
-	Item->SetActorScale3D(FVector::OneVector * 3);
-	Item->SetOwner(this);
+	if (ItemClass)
+	{
+		Item = GetWorld()->SpawnActor<AItem>(ItemClass);
+		Item->AttachToComponent(ItemDisplayPosition, FAttachmentTransformRules::KeepRelativeTransform, TEXT("Item Display"));
+		Item->SetActorScale3D(FVector::OneVector * 3);
+		Item->SetOwner(this);
+	}
 }
 
 // Called every frame

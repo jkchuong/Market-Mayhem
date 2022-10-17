@@ -24,9 +24,7 @@ APurchaseZone::APurchaseZone()
 void APurchaseZone::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	DrawDebugBox(GetWorld(), GetActorLocation(), TriggerZone->GetScaledBoxExtent(), GetActorRotation().Quaternion(), FColor::Blue, true);
-	
+		
 }
 
 // Called every frame

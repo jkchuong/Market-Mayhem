@@ -63,10 +63,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	class UWidgetComponent* ItemCount;
 
-	// For displaying the count on the number of items remaining on the back side
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	class UWidgetComponent* ItemCountBack;
-
 	AItem* GetItem() const;
 	bool GetStockValid() const;
 	void TakeItem();
