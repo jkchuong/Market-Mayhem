@@ -296,14 +296,28 @@ void AShopperCharacter::SetPlayerFinalStats(UUpgradesSaveGame* SavedGame)
 {
 	// Load upgrades from Save Data here. This will give us persistent stats between level changes.
 	// Synchronous loading used as there isn't much data to load. Use asynchronous loading if it expands.
+	// Make opponent shoppers slightly weaker to give player advantage
 	if (SavedGame)
 	{	
-		ScoreMultiplier = 100 * FMath::Pow(1.02, SavedGame->ScoreMultiplier);
-		MovementSpeed = FMath::Pow(1.1, SavedGame->Movement);
-		GetCharacterMovement()->MaxWalkSpeed = 400 * MovementSpeed;
-		ShoppingCart->MaximumCapacity = ShoppingCart->BaseCapacity + (10 * SavedGame->CartCapacity);
-		TakeItemRate = BaseTakeItemRate + (1.5 * SavedGame->TakeItemRate);
-		PurchaseItemRate = BasePurchaseItemRate + (1.5 * SavedGame->PurchaseItemRate);
+		if (IsPlayerControlled())
+		{
+			ScoreMultiplier = 100 * FMath::Pow(1.02, SavedGame->ScoreMultiplier);
+			MovementSpeed = FMath::Pow(1.1, SavedGame->Movement);
+			GetCharacterMovement()->MaxWalkSpeed = 400 * MovementSpeed;
+			ShoppingCart->MaximumCapacity = ShoppingCart->BaseCapacity + (10 * SavedGame->CartCapacity);
+			TakeItemRate = BaseTakeItemRate + (1.5 * SavedGame->TakeItemRate);
+			PurchaseItemRate = BasePurchaseItemRate + (1.5 * SavedGame->PurchaseItemRate);
+		}
+		else
+		{
+			ScoreMultiplier = 100 * FMath::Pow(1.02, SavedGame->ScoreMultiplier);
+			MovementSpeed = FMath::Pow(1.1, SavedGame->Movement - 1);
+			GetCharacterMovement()->MaxWalkSpeed = 400 * MovementSpeed;
+			ShoppingCart->MaximumCapacity = ShoppingCart->BaseCapacity + (10 * SavedGame->CartCapacity - 1);
+			TakeItemRate = BaseTakeItemRate + (1.5 * SavedGame->TakeItemRate - 1);
+			PurchaseItemRate = BasePurchaseItemRate + (1.5 * SavedGame->PurchaseItemRate - 1);
+		}
+
 	}
 }
 

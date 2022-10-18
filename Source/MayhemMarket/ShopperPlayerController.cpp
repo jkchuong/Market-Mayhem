@@ -117,9 +117,7 @@ void AShopperPlayerController::BeginGame()
 
 void AShopperPlayerController::ApplySaveToPlayer(UUpgradesSaveGame* SavedGame)
 {
-    AShopperCharacter* Shopper = Cast<AShopperCharacter>(GetPawn());
-
-    if (Shopper)
+    for (AShopperCharacter* Shopper : TActorRange<AShopperCharacter>(GetWorld()))
     {
         Shopper->SetPlayerFinalStats(SavedGame);
     }
