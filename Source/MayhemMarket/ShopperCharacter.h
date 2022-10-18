@@ -94,6 +94,10 @@ private:
 	UPROPERTY(EditAnywhere, Category="Movement")
 	UParticleSystemComponent* TrailParticles;
 
+	/** For Spawning effects when collecting items*/
+	UPROPERTY(EditAnywhere, Category="Movement")
+	UParticleSystemComponent* CartParticles;
+
 	UPROPERTY(EditAnywhere, Category="Shopping")
 	USoundBase* ItemSound;
 

@@ -31,6 +31,9 @@ AShopperCharacter::AShopperCharacter()
 
 	TrailParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Trail Particles"));
 	TrailParticles->SetupAttachment(RootComponent);
+
+	CartParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Cart Particles"));
+	CartParticles->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -65,6 +68,9 @@ void AShopperCharacter::BeginPlay()
 
 	// Generate initial shopping list here to begin the game
 	GenerateShoppingList();
+
+	// Disable Cart particles to begin with
+	CartParticles->Deactivate();
 
 }
 
@@ -146,6 +152,7 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 void AShopperCharacter::OnPlayerExitZone(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 otherBodyIndex)
 {
 	GetWorldTimerManager().ClearTimer(TransferRateTimerHandle);
+	CartParticles->Deactivate();
 }
 
 void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
@@ -160,6 +167,13 @@ void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
 				UGameplayStatics::PlaySoundAtLocation(this, ItemSound, GetActorLocation());
 			}
 			ItemZone->TakeItem();
+
+			// Call effect here to show stuff is being added to the cart
+			CartParticles->Activate();
+		}
+		else
+		{
+			CartParticles->Deactivate();
 		}
 	}
 }
