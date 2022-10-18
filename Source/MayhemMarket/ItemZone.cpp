@@ -46,7 +46,7 @@ void AItemZone::BeginPlay()
 	{
 		Item = GetWorld()->SpawnActor<AItem>(ItemClass);
 		Item->AttachToComponent(ItemDisplayPosition, FAttachmentTransformRules::KeepRelativeTransform, TEXT("Item Display"));
-		Item->SetActorScale3D(FVector::OneVector * 3);
+		// Item->SetActorScale3D(FVector::OneVector * 3);
 		Item->SetOwner(this);
 	}
 }

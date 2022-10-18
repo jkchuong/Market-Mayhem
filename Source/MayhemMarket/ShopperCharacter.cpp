@@ -141,6 +141,10 @@ void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
 	{
 		if (ShoppingCart->AddItem(ItemZone->GetItem()->ItemName))
 		{
+			if (ItemSound)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, ItemSound, GetActorLocation());
+			}
 			ItemZone->TakeItem();
 		}
 	}

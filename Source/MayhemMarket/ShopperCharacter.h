@@ -86,6 +86,13 @@ private:
 	float ShopDuration{60.0f};
 	FTimerHandle ShopDurationTimerHandle;
 
+	/** For Spawning smoke trailes behind the cart*/
+	UPROPERTY(EditAnywhere, Category="Movement")
+	UParticleSystemComponent* TrailParticles;
+
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	USoundBase* ItemSound;
+
 	/** FUNCTIONS */
 
 	UFUNCTION()
@@ -106,10 +113,6 @@ private:
 	/** Close the shop - ends the round and calls game mode base to deal with it. */
 	UFUNCTION()
 	void CloseShop();
-
-	/** For Spawning smoke trailes behind the cart*/
-	UPROPERTY(EditAnywhere, Category="Movement")
-	UParticleSystemComponent* TrailParticles;
 
 	FString GetStringFromMap(const TMap<FString, int>& Map) const;
 

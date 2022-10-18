@@ -13,6 +13,8 @@ enum class ItemEnum : uint8
   Cake         UMETA(DisplayName = "Cake"),
   Coffee       UMETA(DisplayName = "Coffee"),
   Pizza		   UMETA(DisplayName = "Pizza"),
+  Soda		   UMETA(DisplayName = "Soda"),
+  Champagne    UMETA(DisplayName = "Champagne"),
 
 
   COUNT_MAX_ITEMS, // DON'T CHANGE THE DEFAULT NUMBER OF THE ABOVE. Used to count the number of items there are in the enum.
@@ -49,17 +51,4 @@ public:
 
 	UPROPERTY(VisibleInstanceOnly)
 	FString ItemName{};
-
-	/**
-	 * The size of the item to be added to the shopping cart.
-	*/
-	UPROPERTY(EditDefaultsOnly, Category="Item")
-	float ItemSize{5};
-
-	/**
-	 * The amount of points this item has, to be calculated as the final score.
-	*/
-	UPROPERTY(EditDefaultsOnly, Category="Item")
-	int ItemPoints{10};
-
 };
