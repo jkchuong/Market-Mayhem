@@ -13,7 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "UpgradesSaveGame.h"
 #include "Particles/ParticleSystemComponent.h"
-
+#include "TrashZone.h"
 
 // Sets default values
 AShopperCharacter::AShopperCharacter()
@@ -132,7 +132,14 @@ void AShopperCharacter::OnPlayerEnterItemZone(UPrimitiveComponent* OverlappedCom
 	if (PurchaseZone)
 	{
 		// Start timer that starts removing things from the player
-		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::RemoveItemFromShoppingCart, 1/PurchaseItemRate, true);
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::PurchaseItemFromShoppingCart, 1/PurchaseItemRate, true);
+	}
+
+	// Case for entering TrashZone
+	ATrashZone* TrashZone = Cast<ATrashZone>(OtherActor);
+	if (TrashZone)
+	{
+		GetWorldTimerManager().SetTimer(TransferRateTimerHandle, this, &AShopperCharacter::DiscardItemFromShoppingCart, 0.01, true);
 	}
 }
 
@@ -157,7 +164,7 @@ void AShopperCharacter::AddItemToShoppingCart(AItemZone* ItemZone)
 	}
 }
 
-void AShopperCharacter::RemoveItemFromShoppingCart()
+void AShopperCharacter::PurchaseItemFromShoppingCart()
 {
 	bool bShoppingListEmpty{true};
 	for (TPair<FString, int>& ShoppingListItem : ShoppingList)
@@ -183,8 +190,11 @@ void AShopperCharacter::RemoveItemFromShoppingCart()
 		// If we reach here, that means shipping list item value <= 0 for all items so we need to generate new list
 		GenerateShoppingList();
 	}
+}
 
-
+void AShopperCharacter::DiscardItemFromShoppingCart()
+{
+	ShoppingCart->DiscardItem();
 }
 
 void AShopperCharacter::GenerateShoppingList()

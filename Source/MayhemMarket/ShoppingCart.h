@@ -42,8 +42,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool AddItem(FString ItemToAdd);
 
+	/** Used for PURCHASING item and gaining points. */
 	UFUNCTION(BlueprintCallable)
 	bool RemoveItem(FString ItemToRemove);
+
+	/** Used for DISCARDING item. No points will be awarded. */
+	UFUNCTION(BlueprintCallable)
+	void DiscardItem();
 
 	TMap<FString, int> GetStorage() const;
 	float GetUsedCapacityPercentage() const;

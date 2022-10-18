@@ -68,6 +68,24 @@ bool UShoppingCart::RemoveItem(FString ItemToRemove)
 	return true;
 }
 
+void UShoppingCart::DiscardItem()
+{
+	if (Storage.IsEmpty())
+	{
+		return;
+	}
+
+	for (TPair<FString, int>& Item : Storage)
+	{
+		if (Item.Value > 0)
+		{
+			Item.Value--;
+			return;
+		}
+	}
+}
+
+
 TMap<FString, int> UShoppingCart::GetStorage() const
 {
 	return Storage;

@@ -109,7 +109,11 @@ private:
 	void AddItemToShoppingCart(AItemZone* ItemZone);
 
 	UFUNCTION()
-	void RemoveItemFromShoppingCart();
+	void PurchaseItemFromShoppingCart();
+
+	/** For discarding items into trash. */
+	UFUNCTION()
+	void DiscardItemFromShoppingCart();
 
 	UFUNCTION()
 	void GenerateShoppingList();
