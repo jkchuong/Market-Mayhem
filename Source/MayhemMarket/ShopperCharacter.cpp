@@ -41,6 +41,13 @@ void AShopperCharacter::BeginPlay()
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &AShopperCharacter::OnPlayerEnterItemZone);
 	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this,&AShopperCharacter::OnPlayerExitZone);
 
+	// Get random skins each time the level is loaded
+	if (!Skins.IsEmpty())
+	{	
+		int RandomSkin = FMath::RandRange(0, Skins.Num() - 1);
+		GetMesh()->SetSkeletalMesh(Skins[RandomSkin]);
+	}
+
 	// For using the camera to rotate the player, but allow AI to rotate smoothly
 	if (IsPlayerControlled())
 	{

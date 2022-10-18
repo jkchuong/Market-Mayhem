@@ -86,6 +86,10 @@ private:
 	float ShopDuration{60.0f};
 	FTimerHandle ShopDurationTimerHandle;
 
+	/** Random skins to attach to the ragdoll*/
+	UPROPERTY(EditAnywhere, Category="Shopping")
+	TArray<USkeletalMesh*> Skins;
+
 	/** For Spawning smoke trailes behind the cart*/
 	UPROPERTY(EditAnywhere, Category="Movement")
 	UParticleSystemComponent* TrailParticles;
