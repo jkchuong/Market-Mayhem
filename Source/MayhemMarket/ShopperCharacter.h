@@ -150,6 +150,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerFinalStats(class UUpgradesSaveGame* SavedGame);
 
+	UFUNCTION(BlueprintPure)
+	float GetShopDuration() const;
+
 	TMap<FString, int> GetShoppingList() const;
 	bool IsShopOpen() const;
 };

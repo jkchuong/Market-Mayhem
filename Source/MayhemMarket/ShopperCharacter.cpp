@@ -298,16 +298,16 @@ void AShopperCharacter::SetPlayerFinalStats(UUpgradesSaveGame* SavedGame)
 	// Synchronous loading used as there isn't much data to load. Use asynchronous loading if it expands.
 	if (SavedGame)
 	{	
-		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih score multiplier: %d"), SavedGame->ScoreMultiplier);
-		UE_LOG(LogTemp, Warning, TEXT("Saved game found in shopper character witih points: %d"), SavedGame->Points);
-
 		ScoreMultiplier = 100 * FMath::Pow(1.02, SavedGame->ScoreMultiplier);
 		MovementSpeed = FMath::Pow(1.1, SavedGame->Movement);
-		GetCharacterMovement()->MaxWalkSpeed = 600 * MovementSpeed;
+		GetCharacterMovement()->MaxWalkSpeed = 400 * MovementSpeed;
 		ShoppingCart->MaximumCapacity = ShoppingCart->BaseCapacity + (10 * SavedGame->CartCapacity);
 		TakeItemRate = BaseTakeItemRate + (1.5 * SavedGame->TakeItemRate);
 		PurchaseItemRate = BasePurchaseItemRate + (1.5 * SavedGame->PurchaseItemRate);
 	}
 }
 
-
+float AShopperCharacter::GetShopDuration() const
+{
+	return ShopDuration;
+}
