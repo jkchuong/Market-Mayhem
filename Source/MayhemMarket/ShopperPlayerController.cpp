@@ -78,7 +78,8 @@ FString AShopperPlayerController::GetScoresAsFString() const
 
     for (float Score : TopScores)
     {
-        ReturnString += FString::SanitizeFloat(Score);
+        
+        ReturnString += FString::FromInt(FMath::Floor(Score));
 		ReturnString += LINE_TERMINATOR;
     }
 
