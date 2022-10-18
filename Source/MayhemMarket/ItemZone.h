@@ -40,10 +40,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	int Stock{20};
 
-	// For determining where the item displayed will spawn in the world 
-	UPROPERTY(EditDefaultsOnly)
-	USceneComponent* ItemDisplayPosition;
-
 	// For interacting with the player
 	UPROPERTY(EditDefaultsOnly)
 	class UBoxComponent* TriggerZone;
@@ -58,6 +54,10 @@ private:
 	void Restock();
 
 public:
+
+	// For determining where the item displayed will spawn in the world. Will also be where the items will spawn from
+	UPROPERTY(EditDefaultsOnly)
+	USceneComponent* ItemDisplayPosition;
 
 	// For displaying the count on the number of items remaining
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
