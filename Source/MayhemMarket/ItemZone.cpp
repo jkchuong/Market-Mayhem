@@ -98,7 +98,8 @@ void AItemZone::SetFinalStats(UUpgradesSaveGame* SavedGame)
 {
 	if (SavedGame)
 	{
-		Stock = 100 + (SavedGame->ItemZoneCapacity * 10);
+		MaximumStock = 100 + (SavedGame->ItemZoneCapacity * 10);
+		Stock = MaximumStock;
 		TimeToRestock = 5 * (FMath::Pow(0.975, SavedGame->ItemZoneRestockRate));
 	}
 }
