@@ -80,6 +80,7 @@ void UShoppingCart::DiscardItem()
 		if (Item.Value > 0)
 		{
 			Item.Value--;
+			UsedCapacity--;
 			return;
 		}
 	}
